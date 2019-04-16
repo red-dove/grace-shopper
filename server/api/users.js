@@ -16,24 +16,40 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get("/:id/orders", async (req,res,next) => {
+router.get("/:userId/orders/:orderId", async (req, res, next) => {
   try {
-    const userId = req.params.id;
-    const userOrders = await CartOrders.findAll({
+    const userId = req.params.userId;
+    const orderId = req.params.orderId;
+    const userSingleOrder = await CartOrders.findOne({
+      where: {
+        userId_fk: userId,
+        orderId_fk: orderId
+      }
+    })
+    res.json(userSingleOrder);
+  } catch (error) {
+    next(error);
+  }
+})
+
+router.get("/:userId/orders", async (req,res,next) => {
+  try {
+    const userId = req.params.userId;
+    const userAllOrders = await CartOrders.findAll({
       where: {
         userId_fk: userId
       }
     })
-    res.json(userOrders)
+    res.json(userAllOrders)
   } catch (error) {
     next(error)
   }
 })
 
 // get specific user by id
-router.get("/:id", async(req,res,next) => {
+router.get("/:userId", async(req,res,next) => {
   try {
-    const userId = req.params.id;
+    const userId = req.params.userId;
     const foundUser = await User.findOne({
       where: {
         id: Number(userId)
