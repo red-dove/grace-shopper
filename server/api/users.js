@@ -16,14 +16,14 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get("/:userId/orders/:orderId", async (req, res, next) => {
+router.get("/:userId/orders/:productId", async (req, res, next) => {
   try {
     const userId = req.params.userId;
-    const orderId = req.params.orderId;
+    const productId = req.params.productId;
     const userSingleOrder = await CartOrders.findOne({
       where: {
-        userId_fk: userId,
-        orderId_fk: orderId
+        userId: userId,
+        productId: productId
       }
     })
     res.json(userSingleOrder);
@@ -37,7 +37,7 @@ router.get("/:userId/orders", async (req,res,next) => {
     const userId = req.params.userId;
     const userAllOrders = await CartOrders.findAll({
       where: {
-        userId_fk: userId
+        userId: userId
       }
     })
     res.json(userAllOrders)
