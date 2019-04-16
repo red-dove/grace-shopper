@@ -22,14 +22,13 @@ const Product = db.define('product', {
   },
   quantity: {
     type: Sequelize.INTEGER
-  }, 
+  },
   imageUrl: {
     type: Sequelize.STRING,
     allowNull: false
   }
-})
+ })
 
 module.exports = Product
 
 
-   
