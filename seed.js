@@ -73,9 +73,9 @@ async function seed() {
   ])
 
   const products = await Promise.all([
-    Product.create({name: 'Bee Cool Mug', description: 'Show off your love for bees and how terribly important they are with this environmentally conscious, bee humor, eco-friendly, save the bees, bee pun coffee mug! Let the world know that it is super cool to care about the bees!',price: 29.99, stock: 15, 
+    Product.create({name: 'Bee Cool Mug', description: 'Show off your love for bees and how terribly important they are with this environmentally conscious, bee humor, eco-friendly, save the bees, bee pun coffee mug! Let the world know that it is super cool to care about the bees!',price: 29.99, stock: 15,
     imageUrl: 'https://images.lookhuman.com/render/standard/6954620610410526/mug11oz-whi-z1-t-bee-cool.jpg'  }),
-    Product.create({name: 'No Fox Given', description: 'Premium ceramic. 11oz capacity. Microwave and top-shelf dishwasher safe. Embedded image. Vacuum-form printed in U.S.A.', 
+    Product.create({name: 'No Fox Given', description: 'Premium ceramic. 11oz capacity. Microwave and top-shelf dishwasher safe. Embedded image. Vacuum-form printed in U.S.A.',
     price: 39.99, stock: 10, imageUrl: 'https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiBvdWN8NThAhXjm-AKHW76CFkQjRx6BAgBEAU&url=https%3A%2F%2Fwww.teepublic.com%2Fmug%2F748669-no-fox-given-funny-humor&psig=AOvVaw2bleJ1qRsJDBZ2VdP1F13z&ust=1555512143299565'}),
     Product.create({name: 'PIKA-SHOOK COFFEE MUG', description: `Shocking, isn't it? Celebrate your love of memes, Pikachu, gaming and Pokemon with this surprised Pikachu design!`
         ,price: 12.99, stock: 5, imageUrl: `https://images.lookhuman.com/render/standard/qCNKPOhKunxmmfff2Sv4EDpsu6M2X2ai/mug15oz-whi-z1-t-pika-shook.jpg` }),
