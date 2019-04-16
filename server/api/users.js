@@ -21,7 +21,7 @@ router.get("/:id/orders", async (req,res,next) => {
     const userId = req.params.id;
     const userOrders = await CartOrders.findAll({
       where: {
-        userId_fk: userId
+        userId: userId
       }
     })
     res.json(userOrders)
