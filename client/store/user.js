@@ -6,6 +6,7 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const ADD_USER = 'ADD_USER'
 
 /**
  * INITIAL STATE
@@ -17,6 +18,7 @@ const defaultUser = {}
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
+const addUser = newUser => ({type: ADD_USER, newUser})
 
 /**
  * THUNK CREATORS
@@ -30,16 +32,53 @@ export const me = () => async dispatch => {
   }
 }
 
-export const auth = (email, password, method) => async dispatch => {
+export const auth = (email, password, formName) => async dispatch => {
   let res
   try {
-    res = await axios.post(`/auth/${method}`, {email, password})
+    res = await axios.post(`/auth/${formName}`, {email, password})
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
 
   try {
     dispatch(getUser(res.data))
+    history.push('/home')
+  } catch (dispatchOrHistoryErr) {
+    console.error(dispatchOrHistoryErr)
+  }
+}
+
+export const signup = (
+  email,
+  password,
+  formName,
+  firstName,
+  lastName,
+  street,
+  city,
+  state,
+  zip,
+  country
+) => async dispatch => {
+  let res
+  try {
+    res = await axios.post(`/api/users`, {
+      email,
+      password,
+      firstName,
+      lastName,
+      street,
+      city,
+      state,
+      zip,
+      country
+    })
+  } catch (signupError) {
+    return dispatch(addUser({error: signupError}))
+  }
+
+  try {
+    dispatch(addUser(res.data))
     history.push('/home')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
@@ -65,6 +104,8 @@ export default function(state = defaultUser, action) {
       return action.user
     case REMOVE_USER:
       return defaultUser
+    case ADD_USER:
+      return action.newUser
     default:
       return state
   }
