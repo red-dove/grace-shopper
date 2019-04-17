@@ -1,11 +1,10 @@
- 
 import React, {Component} from 'react'
-import { connect } from 'react-redux';
-import {Link } from  'react-router-dom'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {getAllProductsThunk} from '../store'
 
 class AllProducts extends Component {
-    constructor () {
+  constructor() {
     super()
 
     }  
@@ -24,7 +23,7 @@ class AllProducts extends Component {
                   <div> <img src={product.imageUrl}  /> </div>
                      <Link to ={`/products/${product.id}`}   >
                      <div key={product.id}>{product.name}</div>
-                     </Link>  
+                     </Link>
                      <div>{product.price}</div>
                 </div>
             )            
