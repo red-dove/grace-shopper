@@ -9,17 +9,15 @@ import AllProductsContainer from './components/AllProducts'
 const App = () => {
   return (
     <div>
-    <div>
-      <Navbar />
-      <Routes />
-    </div>
-    <div>
-       <AllProductsContainer  />
-    </div>
+      <div>
+        <Navbar />
+        <Routes />
+      </div>
+      <div>
+        <AllProductsContainer />
+      </div>
     </div>
   )
 }
 
 export default App
-
-
