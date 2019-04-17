@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const GET_PRODUCT = 'GET_PRODUCT'
+const ADD_TO_CART = 'ADD_TO_CART'
 
 
 const initialState ={
@@ -12,15 +13,18 @@ const initialState ={
  const  receiveProducts = (products) => (
     { 
       type:GET_PRODUCTS,
-      products, 
+      allProducts: products, 
      })
+
+     
 
 export const  receiveProduct = (product) => (
         { 
           type:GET_PRODUCT,
-          product, 
+          singleProduct: product, 
          })
     
+   
 
 
 export const getAllProductsThunk = () => {
@@ -37,7 +41,7 @@ export const getAllProductsThunk = () => {
 export const getSingleProductThunk = (productId) => {
     return async dispatch => {
       try {
-        const { data } = await axios.get('api/products/'+ productId)
+        const { data } = await axios.get('/api/products/'+ productId)
         dispatch(receiveProduct(data))
    
       } catch (err) {
@@ -48,9 +52,9 @@ export const getSingleProductThunk = (productId) => {
 export default function(state = initialState, action) {
 switch (action.type) {
     case GET_PRODUCTS:
-    return {...state, allProducts: action.products}
+    return {...state, allProducts: action.allProducts}
     case GET_PRODUCT:
-    return  {...state, singleProduct: action.product}
+    return  {...state, singleProduct: action.singleProduct}
     default:
     return state
 }

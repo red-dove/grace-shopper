@@ -7,19 +7,18 @@ import {getAllProductsThunk} from '../store'
 class AllProducts extends Component {
     constructor () {
     super()
-    }
 
-    // componentDidMount() { 
-    //     this.props.onLoadProducts()
-    //  }
+    }  
+
+    componentDidMount() { 
+        this.props.getAllProductsThunk()
+     }
 
     render() {
-    
         return (
 
-            <div >
-              fkjd
-            {/* {this.props.allProducts.map(product => {
+     <div >        
+            {this.props.data.map(product => {
             return (
               <div    key={product.id} >
                   <div> <img src={product.imageUrl}  /> </div>
@@ -29,29 +28,29 @@ class AllProducts extends Component {
                      <div>{product.price}</div>
                 </div>
             )            
-            })}      */}
+            })}     
           
-    </div>  
+    </div>   
         )
      }   
 }
 const  mapStateToProps= (state)=> {  
-  console.log('mapping state to store', state.products.allProducts)
+//  console.log('mapping state to store', state.products.allProducts)
       return { data: state.products.allProducts } 
   }
   
 
 
-// const mapDispatchToProps =  (dispatch) => {
-//     return {
-//         onLoadProducts:  ()=> {
-//         dispatch(getAllProductsThunk())
-//       },
+const mapDispatchToProps =  (dispatch) => {
+    return {
+      getAllProductsThunk:  ()=> {
+        dispatch(getAllProductsThunk())
+      },
 
 
-//     };
-//   };
+    };
+  };
 
-const AllProductsContainer = connect(mapStateToProps)(AllProducts);
+const AllProductsContainer = connect(mapStateToProps,mapDispatchToProps)(AllProducts);
 export default  AllProductsContainer
   
