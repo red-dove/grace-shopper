@@ -16,25 +16,25 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get("/:userId/orders/:productId", async (req, res, next) => {
+router.get('/:userId/orders/:productId', async (req, res, next) => {
   try {
-    const userId = req.params.userId;
-    const productId = req.params.productId;
+    const userId = req.params.userId
+    const productId = req.params.productId
     const userSingleOrder = await CartOrders.findOne({
       where: {
         userId: userId,
         productId: productId
       }
     })
-    res.json(userSingleOrder);
+    res.json(userSingleOrder)
   } catch (error) {
-    next(error);
+    next(error)
   }
 })
 
-router.get("/:userId/orders", async (req,res,next) => {
+router.get('/:userId/orders', async (req, res, next) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.params.userId
     const userAllOrders = await CartOrders.findAll({
       where: {
         userId: userId
@@ -47,33 +47,43 @@ router.get("/:userId/orders", async (req,res,next) => {
 })
 
 // get specific user by id
-router.get("/:userId", async(req,res,next) => {
+router.get('/:userId', async (req, res, next) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.params.userId
     const foundUser = await User.findOne({
       where: {
         id: Number(userId)
       },
-      attributes: ["id", "email"]
+      attributes: ['id', 'email']
     })
-    res.json(foundUser);
+    res.json(foundUser)
   } catch (error) {
-    next(error);
+    next(error)
   }
 })
 
-router.post("/", async(req,res,next) => {
+router.post('/', async (req, res, next) => {
   try {
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
-    const email = req.body.email;
-    const password = req.body.password;
-    const street = req.body.street;
-    const city = req.body.city;
-    const state = req.body.state;
-    const zip = req.body.zip;
-    const country = req.body.country;
-    const createdUser = await User.create({firstName, lastName, email, password, street, city, state, zip, country});
+    const firstName = req.body.firstName
+    const lastName = req.body.lastName
+    const email = req.body.email
+    const password = req.body.password
+    const street = req.body.street
+    const city = req.body.city
+    const state = req.body.state
+    const zip = req.body.zip
+    const country = req.body.country
+    const createdUser = await User.create({
+      email,
+      password,
+      firstName,
+      lastName,
+      street,
+      city,
+      state,
+      zip,
+      country
+    })
     res.status(201).json(createdUser)
   } catch (error) {
     next(error)
