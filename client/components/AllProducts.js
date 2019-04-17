@@ -9,15 +9,17 @@ class AllProducts extends Component {
     super()
     }
 
-    // componentDidMount() {
+    // componentDidMount() { 
     //     this.props.onLoadProducts()
     //  }
 
     render() {
+    
         return (
 
             <div >
-            {this.props.allProducts.map(product => {
+              fkjd
+            {/* {this.props.allProducts.map(product => {
             return (
               <div    key={product.id} >
                   <div> <img src={product.imageUrl}  /> </div>
@@ -27,14 +29,15 @@ class AllProducts extends Component {
                      <div>{product.price}</div>
                 </div>
             )            
-            })}     
-         
+            })}      */}
+          
     </div>  
         )
      }   
 }
 const  mapStateToProps= (state)=> {  
-      return { allProducts: state.allProducts } 
+  console.log('mapping state to store', state.products.allProducts)
+      return { data: state.products.allProducts } 
   }
   
 
@@ -49,6 +52,6 @@ const  mapStateToProps= (state)=> {
 //     };
 //   };
 
-const AllProductsContainer = connect(mapStateToProps, mapDispatchToProps)(AllProducts);
-export default AllProductsContainer;
+const AllProductsContainer = connect(mapStateToProps)(AllProducts);
+export default  AllProductsContainer
   
