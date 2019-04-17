@@ -12,8 +12,8 @@ const Product = db.define('product', {
     allowNull: false
   },
   price: {
-    type: Sequelize.DECIMAL(12,2),
-    allowNull: false,
+    type: Sequelize.INTEGER,
+    allowNull: false
     // get: function(price){
     //     let original = this.getDataValue(price);
     //     let result = original / 100;
@@ -27,8 +27,6 @@ const Product = db.define('product', {
     type: Sequelize.STRING,
     allowNull: false
   }
- })
+})
 
 module.exports = Product
-
-
