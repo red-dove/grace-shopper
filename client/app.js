@@ -4,7 +4,8 @@ import {Provider} from 'react-redux'
 import {Navbar} from './components'
 import Routes from './routes'
 import store from './store'
-import AllProductsContainer from './components/AllProducts'
+
+
 
 const App = () => {
   return (
@@ -13,9 +14,7 @@ const App = () => {
       <Navbar />
       <Routes />
     </div>
-    <div>
-       <AllProductsContainer  />
-    </div>
+
     </div>
   )
 }
