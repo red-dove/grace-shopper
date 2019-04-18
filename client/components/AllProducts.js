@@ -24,7 +24,7 @@ class AllProducts extends Component {
                      <Link to ={`/products/${product.id}`}   >
                      <div key={product.id}>{product.name}</div>
                      </Link>
-                     <div>{product.price}</div>
+                     <div>${product.price}</div>
                 </div>
             )            
             })}     

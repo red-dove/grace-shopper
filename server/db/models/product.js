@@ -12,16 +12,14 @@ const Product = db.define('product', {
     allowNull: false
   },
   price: {
-    type: Sequelize.DECIMAL(12,2),
+    type: Sequelize.INTEGER,
     allowNull: false,
-    // get: function(price){
-    //     let original = this.getDataValue(price);
-    //     let result = original / 100;
-    //     return result
-    //   }
   },
   quantity: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER, 
+    validate:{
+      min:1
+    }
   },
   imageUrl: {
     type: Sequelize.STRING,

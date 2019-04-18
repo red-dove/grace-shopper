@@ -42,8 +42,8 @@ async function seed() {
       name: 'Bee Cool Mug',
       description:
         'Show off your love for bees and how terribly important they are with this environmentally conscious, bee humor, eco-friendly, save the bees, bee pun coffee mug! Let the world know that it is super cool to care about the bees!',
-      price: 29.99,
-      stock: 15,
+      price: 2999,
+      quantity: 15,
       imageUrl:
         'https://images.lookhuman.com/render/standard/6954620610410526/mug11oz-whi-z1-t-bee-cool.jpg'
     }),
@@ -51,30 +51,30 @@ async function seed() {
       name: 'No Fox Given',
       description:
         'Premium ceramic. 11oz capacity. Microwave and top-shelf dishwasher safe. Embedded image. Vacuum-form printed in U.S.A.',
-      price: 39.99,
-      stock: 10,
+      price: 3999,
+      quantity: 10,
       imageUrl:
-        'https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiBvdWN8NThAhXjm-AKHW76CFkQjRx6BAgBEAU&url=https%3A%2F%2Fwww.teepublic.com%2Fmug%2F748669-no-fox-given-funny-humor&psig=AOvVaw2bleJ1qRsJDBZ2VdP1F13z&ust=1555512143299565'
+        'https://i.etsystatic.com/14092408/r/il/066b78/1172702973/il_570xN.1172702973_cssf.jpg'
     }),
     Product.create({
       name: 'PIKA-SHOOK COFFEE MUG',
       description: `Shocking, isn't it? Celebrate your love of memes, Pikachu, gaming and Pokemon with this surprised Pikachu design!`,
-      price: 12.99,
-      stock: 5,
+      price: 1299,
+      quantity: 5,
       imageUrl: `https://images.lookhuman.com/render/standard/qCNKPOhKunxmmfff2Sv4EDpsu6M2X2ai/mug15oz-whi-z1-t-pika-shook.jpg`
     }),
     Product.create({
       name: 'Rainy Days Gallon',
       description: `I love rainy days. I love the sound. I love the smell. When it's overcast, I light candles. Rainy Days put me in the mood to stay home on the couch and curl up with a good book!`,
-      price: 43,
-      stock: 32,
+      price: 4300,
+      quantity: 32,
       imageUrl: `https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTbLNkVemXTnZdZ0Me-U7YpX4wNH9f-lAiV-Uz2DG-2Fxk_pX2femRuBKEF6kJpDcxToZ21pPzedJh5USGK0HTMPhCbO9pyF2SrJGyiEqOr7dv2-XxFQhT8&usqp=CAE`
     }),
     Product.create({
       name: 'Chalk Style Paint Silos District',
       description: `You don’t have to buy new furniture to get new furniture — simply revive your existing pieces with this Chalk-Style Paint from Magnolia Home by Joanna Gaines.`,
-      price: 32,
-      stock: 10,
+      price: 3200,
+      quantity: 10,
       imageUrl: `https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSrSQD9RCHqYXBw6ns9OpGXkIRYkQv6cl2pO3KPO7xonY4rBzB5qpJ0N2ZM_dXmZ0VpsyJcz8ZXIEw1fhaGBE2aTuKuZHrUxmNkGR9BYs6KffKpS6NyFvC2&usqp=CAE`
     })
   ])

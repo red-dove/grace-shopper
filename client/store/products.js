@@ -23,41 +23,24 @@ export const  receiveProduct = (product) => (
           type:GET_PRODUCT,
           singleProduct: product, 
          })
-    
-  // export const addToCart = (product) => (
-  //   {
-  //     type:GET_PRODUCTS,
-  //     carProduct: product, 
-  //   }
-  // )
-
-  // export const postProduct = (product) => {
-  //   return async (dispatch) => {
-  //    try {
-  //     const res = await axios.post('/api/', product);
-  //     dispatch( addToCart(res.data))
-  //    } 
-  //    catch (err) {
-    
-  //   }
-  //   }
-  // }
 
 export const getAllProductsThunk = () => {
-        return async dispatch => {
-             try {
-               const res= await axios.get('/api/products')
-               dispatch(receiveProducts(res.data))  
-             } catch (err) {
-               console.log("Error fetching products")
-             }
-           }
+  return async dispatch => {
+        try {
+          const {data}= await axios.get('/api/products')
+          data.map(product => product.price = (product.price/100).toFixed(2))
+          dispatch(receiveProducts(data))  
+        } catch (err) {
+          console.log("Error fetching products")
+        }
+      }
 }
 
 export const getSingleProductThunk = (productId) => {
     return async dispatch => {
       try {
         const { data } = await axios.get('/api/products/'+ productId)
+        data.price = (data.price/100).toFixed(2)
         dispatch(receiveProduct(data))
    
       } catch (err) {
