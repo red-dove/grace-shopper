@@ -62,22 +62,9 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-<<<<<<< HEAD
-router.post('/:userId/cart/:productId', async (req, res, next) => {
-  try {
-    const userId = req.params.userId
-    const productId = req.params.productId
-    const postedItem = await CartOrders.create({userId, productId})
-    res.send(201).json(postedItem)
-  } catch (error) {
-    next(error)
-  }
-})
+
 
 router.post("/", async(req,res,next) => {
-=======
-router.post('/', async (req, res, next) => {
->>>>>>> master
   try {
     const firstName = req.body.firstName
     const lastName = req.body.lastName

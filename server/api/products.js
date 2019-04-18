@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Product} = require('../db/models')
+const {Product, CartOrders} = require('../db/models')
 module.exports = router
 
 router.get("/", async(req,res,next) => {
@@ -25,5 +25,16 @@ router.get("/:id", async(req,res,next) => {
   }
 })
 
+
+router.post('/:id', async (req, res, next) => {
+  try {
+    const userId = req.session.passport.user  
+    const productId = req.params.id
+    const postedItem = await CartOrders.create({userId, productId})
+    res.json(postedItem)
+  } catch (error) {
+    next(error)
+  }
+})
 
 
