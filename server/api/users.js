@@ -17,6 +17,28 @@ module.exports = router
 //   }
 // })
 
+router.get('/:userId/cart', async (req, res, next) => {
+  const userId = req.params.userId
+  const userProductObjectArray = await CartOrders.findAll({
+    where: {
+      userId: userId,
+      order: null
+    },
+    attributes: ['productId']
+  })
+
+  const arrayOfProductNumbers = userProductObjectArray.map(prod => {
+    return prod.productId
+  })
+
+  const productsInCart = await Product.findAll({
+    where: {
+      id: arrayOfProductNumbers
+    }
+  })
+  res.json(productsInCart)
+})
+
 router.get('/:userId/orders/:productId', async (req, res, next) => {
   try {
     const userId = req.params.userId
@@ -63,9 +85,7 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-
 router.post('/', async (req, res, next) => {
-
   try {
     const firstName = req.body.firstName
     const lastName = req.body.lastName
