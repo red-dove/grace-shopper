@@ -62,7 +62,7 @@ export const signup = (
 ) => async dispatch => {
   let res
   try {
-    res = await axios.post(`/api/users`, {
+    res = await axios.post(`/auth/signup`, {
       email,
       password,
       firstName,
