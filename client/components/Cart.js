@@ -21,11 +21,25 @@ class Cart extends Component {
     // LOOK AT client/store/cart.js re: the reasoning for cart.cart
     if (this.props.cart.cart && this.props.cart.cart.length > 0) {
       return (
-        <ul>
-          {this.props.cart.cart.map(item => {
-            return <li>{item.id}</li>
-          })}
-        </ul>
+        // <ul>
+        // {this.props.cart.cart.map(item => {
+        //   return <li>{item.id}</li>
+        // })}
+        // </ul>
+        <div className="cart-container">
+          <div className="cart-header">
+            {/* table headers needed here */}
+            {this.props.cart.cart.map(product => {
+              return (
+                <div className="cart-row" key={product.id}>
+                  <a href={`/products/${product.id}`}>{product.name}</a>,{
+                    product.price
+                  }
+                </div>
+              )
+            })}
+          </div>
+        </div>
       )
     } else {
       return <p>NO ITEMS IN CART</p>
@@ -35,7 +49,7 @@ class Cart extends Component {
   render() {
     return (
       <div>
-        <h1>OUR CART</h1>
+        <h1>Your Cart</h1>
         {this.renderItems()}
       </div>
     )
