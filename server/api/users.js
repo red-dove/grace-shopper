@@ -64,31 +64,3 @@ router.get('/:userId', async (req, res, next) => {
 })
 
 
-router.post('/', async (req, res, next) => {
-
-  try {
-    const firstName = req.body.firstName
-    const lastName = req.body.lastName
-    const email = req.body.email
-    const password = req.body.password
-    const street = req.body.street
-    const city = req.body.city
-    const state = req.body.state
-    const zip = req.body.zip
-    const country = req.body.country
-    const createdUser = await User.create({
-      email,
-      password,
-      firstName,
-      lastName,
-      street,
-      city,
-      state,
-      zip,
-      country
-    })
-    res.status(201).json(createdUser)
-  } catch (error) {
-    next(error)
-  }
-})

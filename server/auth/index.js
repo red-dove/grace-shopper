@@ -19,19 +19,38 @@ router.post('/login', async (req, res, next) => {
   }
 })
 
-// THIS CAN BE DELETED AS THIS ROUTE IS NOW HANDLED VIA POST TO /api/users
-// router.post('/signup', async (req, res, next) => {
-//   try {
-//     const user = await User.create(req.body)
-//     req.login(user, err => (err ? next(err) : res.json(user)))
-//   } catch (err) {
-//     if (err.name === 'SequelizeUniqueConstraintError') {
-//       res.status(401).send('User already exists')
-//     } else {
-//       next(err)
-//     }
-//   }
-// })
+//THIS CAN BE DELETED AS THIS ROUTE IS NOW HANDLED VIA POST TO /api/users
+router.post('/signup', async (req, res, next) => {
+  try {
+    const firstName = req.body.firstName
+    const lastName = req.body.lastName
+    const email = req.body.email
+    const password = req.body.password
+    const street = req.body.street
+    const city = req.body.city
+    const state = req.body.state
+    const zip = req.body.zip
+    const country = req.body.country
+    const createdUser = await User.create({
+      email,
+      password,
+      firstName,
+      lastName,
+      street,
+      city,
+      state,
+      zip,
+      country})
+      const user = await User.findOne({where: {email}})
+      req.login(user, err => (err ? next(err) : res.json(createdUser)))
+  } catch (err) {
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      res.status(401).send('User already exists')
+    } else {
+      next(err)
+    }
+  }
+})
 
 router.post('/logout', (req, res) => {
   req.logout()
