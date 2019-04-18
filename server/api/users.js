@@ -17,8 +17,8 @@ module.exports = router
 //   }
 // })
 
-router.get('/:userId/cart', async (req, res, next) => {
-  const userId = req.params.userId
+router.get('/cart', async (req, res, next) => {
+  const userId = req.session.passport.user
   const userProductObjectArray = await CartOrders.findAll({
     where: {
       userId: userId,

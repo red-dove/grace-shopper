@@ -29,10 +29,10 @@ export const addToCartThunk = product => {
   }
 }
 
-export const getCartThunk = userId => {
+export const getCartThunk = () => {
   return async dispatch => {
     try {
-      const userCart = await axios.get(`/api/users/${userId}/cart`)
+      const userCart = await axios.get(`/api/users/cart`)
       dispatch(getCart(userCart.data))
     } catch (error) {
       console.error(error)
@@ -40,19 +40,12 @@ export const getCartThunk = userId => {
   }
 }
 
-// export const addToCartThunk = (product) => {
-//   return dispatch => {
-//     const action = addToCart(product);
-//     dispatch(action);
-//   };
-// };
-
 export default function(state = initialState, action) {
   switch (action.type) {
     case ADD_TO_CART:
       return {...state, cart: [...state.cart, action.product]}
     case GET_CART:
-      return {...state, cart: [action.products]}
+      return {...state, cart: action.products}
     default:
       return state
   }
