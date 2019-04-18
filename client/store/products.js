@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const GET_PRODUCT = 'GET_PRODUCT'
-const ADD_TO_CART = 'ADD_TO_CART'
+
 
 
 const initialState ={
@@ -15,7 +15,7 @@ const initialState ={
       type:GET_PRODUCTS,
       allProducts: products, 
      })
-
+ 
      
 
 export const  receiveProduct = (product) => (
@@ -24,8 +24,24 @@ export const  receiveProduct = (product) => (
           singleProduct: product, 
          })
     
-   
+  // export const addToCart = (product) => (
+  //   {
+  //     type:GET_PRODUCTS,
+  //     carProduct: product, 
+  //   }
+  // )
 
+  // export const postProduct = (product) => {
+  //   return async (dispatch) => {
+  //    try {
+  //     const res = await axios.post('/api/', product);
+  //     dispatch( addToCart(res.data))
+  //    } 
+  //    catch (err) {
+    
+  //   }
+  //   }
+  // }
 
 export const getAllProductsThunk = () => {
         return async dispatch => {

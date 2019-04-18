@@ -63,7 +63,9 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
+
 router.post('/', async (req, res, next) => {
+
   try {
     const firstName = req.body.firstName
     const lastName = req.body.lastName
