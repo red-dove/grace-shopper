@@ -10,6 +10,10 @@ const CartOrders = db.define('cartOrders', {
   order: {
     type: Sequelize.INTEGER,
     allowNull: true
+  },
+  quantity: {
+    type: Sequelize.INTEGER,
+    defaultValue: 1
   }
 })
 
