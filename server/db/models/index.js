@@ -9,7 +9,6 @@ const CartOrders = require('./cartOrders')
  *    BlogPost.belongsTo(User)
  */
 
-
 User.belongsToMany(Product, {through: 'cartOrders'})
 Product.belongsToMany(User, {through: 'cartOrders'})
 
@@ -20,7 +19,8 @@ Product.belongsToMany(User, {through: 'cartOrders'})
  * instead of: const User = require('../db/models/user')
  */
 
-
 module.exports = {
-  User, Product, CartOrders
+  User,
+  Product,
+  CartOrders
 }

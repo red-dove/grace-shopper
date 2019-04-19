@@ -19,3 +19,21 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.cart-container {
+  width: 90vw;
+}
+
+.cart-header,
+.cart-row {
+  display: flex;
+}
+.cart-header div,
+.cart-row div {
+  margin: 5px;
+}
+
+.cart-header-product-name,
+.cart-column-product-name {
+  flex-grow: 2;
+}
