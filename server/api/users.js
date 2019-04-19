@@ -92,8 +92,7 @@ router.get('/:userId', async (req, res, next) => {
     const foundUser = await User.findOne({
       where: {
         id: Number(userId)
-      },
-      attributes: ['id', 'email']
+      }
     })
     res.json(foundUser)
   } catch (error) {
@@ -101,30 +100,23 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.get('/profile', async (req, res, next) => {
   try {
-    const firstName = req.body.firstName
-    const lastName = req.body.lastName
-    const email = req.body.email
-    const password = req.body.password
-    const street = req.body.street
-    const city = req.body.city
-    const state = req.body.state
-    const zip = req.body.zip
-    const country = req.body.country
-    const createdUser = await User.create({
-      email,
-      password,
-      firstName,
-      lastName,
-      street,
-      city,
-      state,
-      zip,
-      country
+    const userId = req.session.passport.user
+    const foundUser = await User.findOne({
+      where: {
+        id: userId
+      }
     })
-    res.status(201).json(createdUser)
+    res.json(foundUser)
   } catch (error) {
     next(error)
   }
+})
+
+router.put('/profile', (req, res, next) => {
+  User.findById(req.session.passport.user)
+    .then(user => user.update(req.body))
+    .then(user => res.json(user))
+    .catch(next)
 })
