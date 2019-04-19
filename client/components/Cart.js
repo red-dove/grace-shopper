@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {getCartThunk} from '../store/cart'
+import {getCartThunk, removeItemThunk} from '../store/cart'
 import {connect} from 'react-redux'
 
 const mapStateToProps = state => {
@@ -9,7 +9,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  getCart: () => dispatch(getCartThunk())
+  getCart: () => dispatch(getCartThunk()),
+  removeItem: product => dispatch(removeItemThunk(product))
 })
 
 class Cart extends Component {
@@ -41,13 +42,12 @@ class Cart extends Component {
                 <div className="cart-column-product-quantity">
                   <button>
                     <i className="far fa-minus-square" />
-                  </button>{' '}
-                  1{' '}
+                  </button>1
                   <button>
                     <i className="far fa-plus-square" />
                   </button>
-                  <button>
-                    <i className="far fa-trash-alt" />
+                  <button onClick={() => this.props.removeItem(product.id)}>
+                    <i className="far fa-trash-alt" /> Remove
                   </button>
                 </div>
                 <div className="cart-column-product-price">

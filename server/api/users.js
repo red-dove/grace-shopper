@@ -39,6 +39,22 @@ router.get('/cart', async (req, res, next) => {
   res.json(productsInCart)
 })
 
+router.delete('/cart/:productId', async (req, res, next) => {
+  try {
+    const userId = req.session.passport.user
+    const productId = req.params.productId
+    const deleteItem = await CartOrders.destroy({
+      where: {
+        userId,
+        productId
+      }
+    })
+    res.sendStatus(204)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.get('/:userId/orders/:productId', async (req, res, next) => {
   try {
     const userId = req.params.userId
