@@ -6,6 +6,7 @@ import {Login, Signup, UserHome} from './components'
 import {me} from './store'
 import AllProductsContainer from './components/AllProducts'
 import SingleProductContainer from './components/SingleProduct'
+import  UserProfileContainer from './components/UserProfile'
 
 
 
@@ -25,6 +26,7 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/products/:productId" component={SingleProductContainer} />
         <Route path="/products" component={AllProductsContainer} />
+        <Route path="/profile" component={UserProfileContainer} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Redirect from='/' to='/products'  />
