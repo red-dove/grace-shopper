@@ -30,8 +30,8 @@ class Cart extends Component {
         <div className="cart-container">
           <div className="cart-header">
             <div className="cart-header-product-name">Item</div>
-            <div className="cart-column-product-quantity">Quantity</div>
-            <div className="cart-column-product-price">Price</div>
+            <div className="cart-header-product-quantity">Quantity</div>
+            <div className="cart-header-product-price">Price</div>
           </div>
           {this.props.cart.map(product => {
             return (

@@ -39,8 +39,9 @@ export const addToCartThunk = product => {
 export const getCartThunk = () => {
   return async dispatch => {
     try {
-      const userCart = await axios.get(`/api/users/cart`)
-      dispatch(getCart(userCart.data))
+      const {data} = await axios.get(`/api/users/cart`)
+      data.map(product => (product.price = (product.price / 100).toFixed(2)))
+      dispatch(getCart(data))
     } catch (error) {
       console.error(error)
     }
