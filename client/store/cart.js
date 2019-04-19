@@ -20,9 +20,9 @@ const addToCart = product => ({
   product
 })
 
-const removeItem = product => ({
+const removeItem = id => ({
   type: REMOVE_ITEM,
-  product
+  id
 })
 
 export const addToCartThunk = product => {
@@ -47,11 +47,11 @@ export const getCartThunk = () => {
   }
 }
 
-export const removeItemThunk = product => {
+export const removeItemThunk = id => {
   return async dispatch => {
     try {
-      await axios.delete('/api/users/cart/' + product)
-      dispatch(removeItem(product))
+      await axios.delete('/api/users/cart/' + id)
+      dispatch(removeItem(id))
     } catch (error) {
       console.error(error)
     }
@@ -67,7 +67,9 @@ export default function(state = initialState, action) {
     case REMOVE_ITEM:
       return {
         ...state,
-        cart: [...state.cart].filter(product => product.id !== action.id)
+        cart: [...state.cart].filter(product => {
+          return product.id !== action.id
+        })
       }
     default:
       return state
