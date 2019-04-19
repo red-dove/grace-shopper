@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 
 const mapStateToProps = state => {
   return {
-    cart: state.cart
+    cart: state.cart.cart
   }
 }
 
@@ -20,7 +20,7 @@ class Cart extends Component {
 
   renderItems() {
     // LOOK AT client/store/cart.js re: the reasoning for cart.cart
-    if (this.props.cart.cart && this.props.cart.cart.length > 0) {
+    if (this.props.cart && this.props.cart.length > 0) {
       return (
         // <ul>
         // {this.props.cart.cart.map(item => {
@@ -33,7 +33,7 @@ class Cart extends Component {
             <div className="cart-column-product-quantity">Quantity</div>
             <div className="cart-column-product-price">Price</div>
           </div>
-          {this.props.cart.cart.map(product => {
+          {this.props.cart.map(product => {
             return (
               <div className="cart-row" key={product.id}>
                 <div className="cart-column-product-name">

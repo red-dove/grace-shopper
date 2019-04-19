@@ -43,7 +43,7 @@ router.delete('/cart/:productId', async (req, res, next) => {
   try {
     const userId = req.session.passport.user
     const productId = req.params.productId
-    const deleteItem = await CartOrders.destroy({
+    await CartOrders.destroy({
       where: {
         userId,
         productId

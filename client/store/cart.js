@@ -67,7 +67,7 @@ export default function(state = initialState, action) {
     case REMOVE_ITEM:
       return {
         ...state,
-        cart: [...state.cart].filter(item => item.id !== action.id)
+        cart: [...state.cart].filter(product => product.id !== action.id)
       }
     default:
       return state
