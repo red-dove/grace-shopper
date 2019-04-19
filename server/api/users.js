@@ -54,8 +54,7 @@ router.get('/:userId', async (req, res, next) => {
     const foundUser = await User.findOne({
       where: {
         id: Number(userId)
-      },
-      attributes: ['id', 'email']
+      }
     })
     res.json(foundUser)
   } catch (error) {
@@ -63,4 +62,24 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
+router.get('/profile', async (req, res, next) => {
+  try {
+    const userId = req.session.passport.user 
+    const foundUser = await User.findOne({
+      where: {
+        id: userId
+      }
+    })
+    res.json(foundUser)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/profile', (req, res, next) => {
+  User.findById(req.session.passport.user)
+    .then(user => user.update(req.body))
+    .then(user => res.json(user))
+    .catch(next)
+})
 

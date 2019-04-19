@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import { runInNewContext } from 'vm';
 
 /**
  * ACTION TYPES
@@ -7,6 +8,8 @@ import history from '../history'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const ADD_USER = 'ADD_USER'
+const EDIT_USER_FORM = 'EDIT_USER_FORM'
+const EDIT_USER_PUT = 'EDIT_USER_PUT'
 
 /**
  * INITIAL STATE
@@ -19,7 +22,8 @@ const defaultUser = {}
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 const addUser = newUser => ({type: ADD_USER, newUser})
-
+const editUser = user => ({type:EDIT_USER_FORM, user})
+const editUserInfo = user => ({type:EDIT_USER_PUT, user})
 /**
  * THUNK CREATORS
  */
@@ -46,6 +50,28 @@ export const auth = (email, password, formName) => async dispatch => {
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
+}
+
+export const editUserThunk = () => async dispatch => {
+  try {
+      let res = await axios.get(`/api/users/profile`)
+      return dispatch(editUser(res.data))
+  }
+  catch (error) {
+      next(error)
+  }
+  
+}
+
+export  const editUserInfoThunk = (user) => async dispatch => {
+  try{
+      let res = await axios.put('/api/users/profile', user)
+      return dispatch(editUserInfo(res.data))
+  }
+ catch (error) {
+   next(error)
+ }
+
 }
 
 export const signup = (
@@ -106,6 +132,10 @@ export default function(state = defaultUser, action) {
       return defaultUser
     case ADD_USER:
       return action.newUser
+    case EDIT_USER_FORM:
+      return action.user
+    case EDIT_USER_PUT:
+      return action.user
     default:
       return state
   }
