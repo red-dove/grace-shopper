@@ -28,17 +28,34 @@ class Cart extends Component {
         // </ul>
         <div className="cart-container">
           <div className="cart-header">
-            {/* table headers needed here */}
-            {this.props.cart.cart.map(product => {
-              return (
-                <div className="cart-row" key={product.id}>
-                  <a href={`/products/${product.id}`}>{product.name}</a>,{
-                    product.price
-                  }
-                </div>
-              )
-            })}
+            <div className="cart-header-product-name">Item</div>
+            <div className="cart-column-product-quantity">Quantity</div>
+            <div className="cart-column-product-price">Price</div>
           </div>
+          {this.props.cart.cart.map(product => {
+            return (
+              <div className="cart-row" key={product.id}>
+                <div className="cart-column-product-name">
+                  <a href={`/products/${product.id}`}>{product.name}</a>
+                </div>
+                <div className="cart-column-product-quantity">
+                  <button>
+                    <i className="far fa-minus-square" />
+                  </button>{' '}
+                  1{' '}
+                  <button>
+                    <i className="far fa-plus-square" />
+                  </button>
+                  <button>
+                    <i className="far fa-trash-alt" />
+                  </button>
+                </div>
+                <div className="cart-column-product-price">
+                  ${product.price}
+                </div>
+              </div>
+            )
+          })}
         </div>
       )
     } else {
