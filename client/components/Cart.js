@@ -10,7 +10,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   getCart: () => dispatch(getCartThunk()),
-  removeItem: product => dispatch(removeItemThunk(product))
+  removeItem: id => dispatch(removeItemThunk(id))
 })
 
 class Cart extends Component {
