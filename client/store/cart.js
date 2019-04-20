@@ -7,6 +7,7 @@ const initialState = {
 const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_ITEM = 'REMOVE_ITEM'
+const UPDATE_ITEM_QUANTITY = 'UPDATE_ITEM_QUANTITY'
 
 const getCart = products => {
   return {
@@ -23,6 +24,12 @@ const addToCart = product => ({
 const removeItem = id => ({
   type: REMOVE_ITEM,
   id
+})
+
+const updateItemQuantity = (id, num) => ({
+  type: UPDATE_ITEM_QUANTITY,
+  id,
+  num
 })
 
 export const addToCartThunk = product => {
@@ -53,6 +60,22 @@ export const removeItemThunk = id => {
     try {
       await axios.delete('/api/users/cart/' + id)
       dispatch(removeItem(id))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const updateItemQuantityThunk = (id, num) => {
+  return async dispatch => {
+    try {
+      if (num === 0) {
+        await axios.delete('/api/users/cart/' + id)
+        dispatch(removeItem(id))
+      } else {
+        await axios.put('/api/users/cart/' + id, num)
+        dispatch(updateItemQuantity(id, num))
+      }
     } catch (error) {
       console.error(error)
     }

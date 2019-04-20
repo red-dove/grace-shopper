@@ -1,6 +1,11 @@
 import React, {Component} from 'react'
-import {getCartThunk, removeItemThunk} from '../store/cart'
+import {
+  getCartThunk,
+  removeItemThunk,
+  updateItemQuantityThunk
+} from '../store/cart'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 const mapStateToProps = state => {
   return {
@@ -10,7 +15,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   getCart: () => dispatch(getCartThunk()),
-  removeItem: id => dispatch(removeItemThunk(id))
+  removeItem: id => dispatch(removeItemThunk(id)),
+  updateItemQuantity: (id, num) => dispatch(updateItemQuantityThunk(id, num))
 })
 
 class Cart extends Component {
@@ -19,43 +25,53 @@ class Cart extends Component {
   }
 
   renderItems() {
-    // LOOK AT client/store/cart.js re: the reasoning for cart.cart
     if (this.props.cart && this.props.cart.length > 0) {
       return (
-        // <ul>
-        // {this.props.cart.cart.map(item => {
-        //   return <li>{item.id}</li>
-        // })}
-        // </ul>
         <div className="cart-container">
-          <div className="cart-header">
-            <div className="cart-header-product-name">Item</div>
-            <div className="cart-header-product-quantity">Quantity</div>
-            <div className="cart-header-product-price">Price</div>
+          <h1>Your Cart</h1>
+          <div className="cart-table">
+            <div className="cart-table-cell-50">
+              <h3>Item</h3>
+            </div>
+            <div className="cart-table-cell-25">
+              <h3>Quantity</h3>
+            </div>
+            <div className="cart-table-cell-25">
+              <h3>Price</h3>
+            </div>
+            {this.props.cart.map(product => {
+              return (
+                <>
+                  <div className="cart-table-cell-50">
+                    <a href={`/products/${product.id}`}>{product.name}</a>
+                  </div>
+                  <div className="cart-table-cell-25">
+                    <input
+                      name="quantity"
+                      type="number"
+                      min="0"
+                      placeholder="1"
+                    />
+                    <span
+                      className="pointer"
+                      onClick={() => this.props.removeItem(product.id)}
+                    >
+                      {' '}
+                      Update{' '}
+                    </span>|
+                    <span
+                      className="pointer"
+                      onClick={() => this.props.removeItem(product.id)}
+                    >
+                      {' '}
+                      Remove{' '}
+                    </span>
+                  </div>
+                  <div className="cart-table-cell-25">${product.price}</div>
+                </>
+              )
+            })}
           </div>
-          {this.props.cart.map(product => {
-            return (
-              <div className="cart-row" key={product.id}>
-                <div className="cart-column-product-name">
-                  <a href={`/products/${product.id}`}>{product.name}</a>
-                </div>
-                <div className="cart-column-product-quantity">
-                  <button>
-                    <i className="far fa-minus-square" />
-                  </button>1
-                  <button>
-                    <i className="far fa-plus-square" />
-                  </button>
-                  <button onClick={() => this.props.removeItem(product.id)}>
-                    <i className="far fa-trash-alt" /> Remove
-                  </button>
-                </div>
-                <div className="cart-column-product-price">
-                  ${product.price}
-                </div>
-              </div>
-            )
-          })}
         </div>
       )
     } else {
@@ -64,12 +80,7 @@ class Cart extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <h1>Your Cart</h1>
-        {this.renderItems()}
-      </div>
-    )
+    return <div>{this.renderItems()}</div>
   }
 }
 
