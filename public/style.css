@@ -48,6 +48,10 @@ form div {
   overflow: hidden;
 }
 
+.cart-table-product-img {
+  width: 100px;
+}
+
 [class^='cart-table-cell-'] input {
   width: 50px;
 }

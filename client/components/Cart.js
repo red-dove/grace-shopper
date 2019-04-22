@@ -46,7 +46,13 @@ class Cart extends Component {
               return (
                 <>
                   <div className="cart-table-cell-50">
-                    <Link to={`/products/${product.id}`}>{product.name}</Link>
+                    <Link to={`/products/${product.id}`}>
+                      <img
+                        src={`${product.imageUrl}`}
+                        className="cart-table-product-img"
+                      />
+                      {product.name}
+                    </Link>
                   </div>
                   <div className="cart-table-cell-25">
                     <input
