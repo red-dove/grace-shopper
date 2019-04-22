@@ -100,23 +100,36 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-router.get('/profile', async (req, res, next) => {
+// router.get('/profile', async (req, res, next) => {
+//   try {
+//     const userId = req.session.passport.user  
+//     console.log(req.session.passport.user)
+//     const foundUser = await User.findOne({
+//       where: {
+//         id: Number(userId)
+//       }
+//     })
+//     res.send(foundUser)
+//   } catch (error) {
+//     next(error)
+//   } 
+// })
+
+
+
+router.put('/profile', async (req, res, next) => {
   try {
     const userId = req.session.passport.user
-    const foundUser = await User.findOne({
+    const user = await User.findOne({
       where: {
         id: userId
       }
     })
-    res.json(foundUser)
-  } catch (error) {
-    next(error)
-  }
-})
 
-router.put('/profile', (req, res, next) => {
-  User.findById(req.session.passport.user)
-    .then(user => user.update(req.body))
-    .then(user => res.json(user))
-    .catch(next)
+    const result = await user.update (req.body)
+    res.json(result)
+    
+  } catch (err) {
+    res.sendStatus(500)
+  }
 })

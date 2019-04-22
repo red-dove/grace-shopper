@@ -1,6 +1,6 @@
 import axios from 'axios'
 import history from '../history'
-import { runInNewContext } from 'vm';
+import {runInNewContext} from 'vm'
 
 /**
  * ACTION TYPES
@@ -8,22 +8,28 @@ import { runInNewContext } from 'vm';
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const ADD_USER = 'ADD_USER'
-const EDIT_USER_FORM = 'EDIT_USER_FORM'
-const EDIT_USER_PUT = 'EDIT_USER_PUT'
+const GET_USER_PROFILE = 'GET_USER_PROFILE'
+const UPDATE_USER_INFO = 'UPDATE_USER_INFO'
 
 /**
  * INITIAL STATE
  */
 const defaultUser = {}
-
+ 
 /**
  * ACTION CREATORS
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 const addUser = newUser => ({type: ADD_USER, newUser})
-const editUser = user => ({type:EDIT_USER_FORM, user})
-const editUserInfo = user => ({type:EDIT_USER_PUT, user})
+const getUserProfile = user => ({type: GET_USER_PROFILE, user})
+
+const editUserInfo = body => {
+  return {
+    type: UPDATE_USER_INFO,
+    body
+  }
+}
 /**
  * THUNK CREATORS
  */
@@ -52,26 +58,24 @@ export const auth = (email, password, formName) => async dispatch => {
   }
 }
 
-export const editUserThunk = () => async dispatch => {
+export const getUserProfileThunk = () => async dispatch => {
   try {
-      let res = await axios.get(`/api/users/profile`)
-      return dispatch(editUser(res.data))
+    let res = await axios.get(`/api/users/profile`)
+    return dispatch(getUserProfile(res.data))
+  } catch (error) {
+    console.log('ERROR', error)
   }
-  catch (error) {
-      next(error)
-  }
-  
 }
 
-export  const editUserInfoThunk = (user) => async dispatch => {
-  try{
-      let res = await axios.put('/api/users/profile', user)
+export const editUserInfoThunk = body => {
+  return async (dispatch) => {
+    try {
+      let res = await axios.put('/api/users/profile', body)
       return dispatch(editUserInfo(res.data))
+    } catch (error) {
+      console.log('ERROR', error)
+    }
   }
- catch (error) {
-   next(error)
- }
-
 }
 
 export const signup = (
@@ -132,10 +136,10 @@ export default function(state = defaultUser, action) {
       return defaultUser
     case ADD_USER:
       return action.newUser
-    case EDIT_USER_FORM:
+    case GET_USER_PROFILE:
       return action.user
-    case EDIT_USER_PUT:
-      return action.user
+    case UPDATE_USER_INFO:
+      return action.body
     default:
       return state
   }

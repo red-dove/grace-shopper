@@ -27,13 +27,20 @@ class SingleProduct extends Component {
     let product = this.props.data
         return ( 
 
-             <div  >
-                  <div> <img src={product.imageUrl}  /> </div>    
-                  <div>{product.description}  </div>      
-                     <div >{product.name}</div>
-                     <div>${product.price}</div>
-                     <div><button type="submit" onClick={this.handleSubmit}>Add to Cart</button></div>
-                </div>
+             <div className='container' >
+                 <div className='containerSingle'>
+                   
+                            <div> <img src={product.imageUrl}  /> </div>  
+                            <div id='nameStyle'>{product.name}</div>
+                              <div id='priceStyle'>${product.price}</div>  
+                              <div><button type="submit" onClick={this.handleSubmit}>Add to Cart</button></div>
+                     </div>
+            
+             <div className='desc'>{product.description}  </div>      
+                    
+                   
+
+      </div>
 
                
 

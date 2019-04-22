@@ -14,24 +14,37 @@ const mapDispatchToProps = dispatch => ({
 })
 
 class Cart extends Component {
+  constructor() {
+    super()
+//this.addTotal = this.addTotal.bind(this)
+    }  
   componentDidMount() {
     this.props.getCart()
   }
 
+  // addTotal() {
+  //   totalPrice = this.props.cart.map(product => {return product.price}).reduce ((x,y)=>x+y)
+  //   return totalPrice
+  // }
+
   renderItems() {
+
+   // const totalPrice = this.props.cart.map(product => {return product.price}).reduce ((x,y)=>x+y)
+  
+   
     // LOOK AT client/store/cart.js re: the reasoning for cart.cart
     if (this.props.cart && this.props.cart.length > 0) {
+      const totalPrice = this.props.cart.map(product => {return product.price}).reduce
+       ((x,y)=> Number(x)+ Number(y))
+   
       return (
-        // <ul>
-        // {this.props.cart.cart.map(item => {
-        //   return <li>{item.id}</li>
-        // })}
-        // </ul>
+   
         <div className="cart-container">
           <div className="cart-header">
             <div className="cart-header-product-name">Item</div>
             <div className="cart-column-product-quantity">Quantity</div>
             <div className="cart-column-product-price">Price</div>
+            <div className="cart-column-product-remove">Remove</div>
           </div>
           {this.props.cart.map(product => {
             return (
@@ -46,27 +59,37 @@ class Cart extends Component {
                   <button>
                     <i className="far fa-plus-square" />
                   </button>
-                  <button onClick={() => this.props.removeItem(product.id)}>
-                    <i className="far fa-trash-alt" /> Remove
-                  </button>
+                
                 </div>
                 <div className="cart-column-product-price">
                   ${product.price}
                 </div>
+                <div className="cart-column-product-remove">
+                <button onClick={() => this.props.removeItem(product.id)}>
+                    <i className="far fa-trash-alt" />
+                  </button>
+                  </div>
               </div>
             )
           })}
+           <div  id="total" >TOTAL: ${totalPrice} </div>
+          <div id='checkOut'><button>Check Out</button></div>
         </div>
+        
       )
     } else {
-      return <p>NO ITEMS IN CART</p>
+      return <div className='container'><br /> <br />Your Cart Is Currently Empty</div>
     }
   }
 
   render() {
+   // const totalPrice = this.props.cart.map(product => {return product.price}).reduce ((x,y)=>x+y)
+  
     return (
+      
       <div>
-        <h1>Your Cart</h1>
+
+        <h1 id='cartHeader'>Your Cart</h1>
         {this.renderItems()}
       </div>
     )
