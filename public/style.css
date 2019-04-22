@@ -21,19 +21,41 @@ form div {
 }
 
 .cart-container {
-  width: 90vw;
+  max-width: 960px;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin: 0 auto;
 }
 
-.cart-header,
-.cart-row {
+.cart-table {
   display: flex;
-}
-.cart-header div,
-.cart-row div {
-  margin: 5px;
+  flex-wrap: wrap;
+  margin: 0 0 1em 0;
+  padding: 0;
 }
 
-.cart-header-product-name,
-.cart-column-product-name {
-  flex-grow: 2;
+.cart-table-cell-50 {
+  width: 50%;
+  box-sizing: border-box;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.cart-table-cell-25 {
+  width: 25%;
+  box-sizing: border-box;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.cart-table-product-img {
+  width: 100px;
+}
+
+[class^='cart-table-cell-'] input {
+  width: 50px;
+}
+
+.pointer {
+  cursor: pointer;
 }
