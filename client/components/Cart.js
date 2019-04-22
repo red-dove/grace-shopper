@@ -33,22 +33,27 @@ class Cart extends Component {
         <div className="cart-container">
           <h1>Your Cart</h1>
           <div className="cart-table">
-            <div className="cart-table-cell-50">
-              <h3>Item</h3>
-            </div>
-            <div className="cart-table-cell-25">
-              <h3>Quantity</h3>
-            </div>
-            <div className="cart-table-cell-25">
-              <h3>Price</h3>
+            <div className="cart-table-row">
+              <div className="cart-table-cell-50">
+                <h3>Item</h3>
+              </div>
+              <div className="cart-table-cell-25">
+                <h3>Quantity</h3>
+              </div>
+              <div className="cart-table-cell-25">
+                <h3>Price</h3>
+              </div>
             </div>
             {this.props.cart.map(product => {
               return (
-                <>
+                <div className="cart-table-row" key={product.id}>
                   <div className="cart-table-cell-50">
-                    <Link to={`/products/${product.id}`}>
+                    <Link
+                      to={`/products/${product.id}`}
+                      className="cart-table-link"
+                    >
                       <img
-                        src={`${product.imageUrl}`}
+                        src={product.imageUrl}
                         className="cart-table-product-img"
                       />
                       {product.name}
@@ -71,7 +76,7 @@ class Cart extends Component {
                     </button>
                   </div>
                   <div className="cart-table-cell-25">${product.price}</div>
-                </>
+                </div>
               )
             })}
           </div>
