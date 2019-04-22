@@ -15,21 +15,24 @@ class AllProducts extends Component {
 
     render() {
         return (
-
-     <div >        
+<div><h1>Our Products</h1>
+     <div className='container'> 
+     
             {this.props.data.map(product => {
             return (
-              <div    key={product.id} >
-                  <div> <img src={product.imageUrl}  /> </div>
+              <div  className='container-child' key={product.id} >
+                  <div  > <Link to ={`/products/${product.id}`}   > <img src={product.imageUrl}  /> </Link> </div>
+               
                      <Link to ={`/products/${product.id}`}   >
-                     <div key={product.id}>{product.name}</div>
+                     <div key={product.id}><h5>{product.name}</h5></div>
                      </Link>
                      <div>${product.price}</div>
-                </div>
+                     </div>
+           
             )            
             })}     
-          
-    </div>   
+          </div>    
+          </div>
         )
      }   
 }

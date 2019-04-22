@@ -9,6 +9,7 @@ const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_ITEM = 'REMOVE_ITEM'
 const UPDATE_ITEM_QUANTITY = 'UPDATE_ITEM_QUANTITY'
 
+
 const getCart = products => {
   return {
     type: GET_CART,
@@ -31,6 +32,8 @@ const updateItemQuantity = (id, num) => ({
   id,
   num
 })
+
+
 
 export const addToCartThunk = product => {
   return async dispatch => {

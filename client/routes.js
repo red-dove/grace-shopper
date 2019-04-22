@@ -8,7 +8,7 @@ import AllProductsContainer from './components/AllProducts'
 import SingleProductContainer from './components/SingleProduct'
 import Cart from './components/Cart'
 import UserProfileContainer from './components/UserProfile'
-
+import NotFound from './components/NotFound'
 /**
  * COMPONENT
  */
@@ -33,8 +33,9 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/cart" component={Cart} />
-
+     
         <Redirect from="/" to="/products" />
+    
 
         {isLoggedIn && (
           <Switch>
@@ -44,6 +45,7 @@ class Routes extends Component {
         )}
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
+        <Route component={NotFound} />
       </Switch>
     )
   }
