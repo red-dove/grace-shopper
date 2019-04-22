@@ -23,12 +23,24 @@ const mapDispatchToProps = dispatch => ({
 })
 
 class Cart extends Component {
+  constructor() {
+    super()
+//this.addTotal = this.addTotal.bind(this)
+    }  
   componentDidMount() {
     this.props.getCart()
   }
 
+  // addTotal() {
+  //   totalPrice = this.props.cart.map(product => {return product.price}).reduce ((x,y)=>x+y)
+  //   return totalPrice
+  // }
+
   renderItems() {
     if (this.props.cart && this.props.cart.length > 0) {
+      const totalPrice = this.props.cart.map(product => {return product.price}).reduce
+       ((x,y)=> Number(x)+ Number(y))
+   
       return (
         <div className="cart-container">
           <h1>Your Cart</h1>
@@ -80,10 +92,13 @@ class Cart extends Component {
               )
             })}
           </div>
+          <div  id="total" >TOTAL: ${totalPrice} </div>
+          <div id='checkOut'><button>Check Out</button></div>
         </div>
+        
       )
     } else {
-      return <p>NO ITEMS IN CART</p>
+      return <div className='container'><br /> <br />Your Cart Is Currently Empty</div>
     }
   }
 
