@@ -88,9 +88,17 @@ form div {
   margin: 0 auto;
 }
 
-.cart-table {
+/* .cart-table {
   display: flex;
   flex-wrap: wrap;
+  margin: 0 0 1em 0;
+  padding: 0;
+} */
+
+.cart-table-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   margin: 0 0 1em 0;
   padding: 0;
 }
@@ -109,8 +117,14 @@ form div {
   overflow: hidden;
 }
 
+.cart-table-link {
+  display: flex;
+  align-items: center;
+}
+
 .cart-table-product-img {
-  width: 100px;
+  margin: 10px;
+  width: 80px;
 }
 
 [class^='cart-table-cell-'] input {
