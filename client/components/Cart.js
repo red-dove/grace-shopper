@@ -16,7 +16,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   getCart: () => dispatch(getCartThunk()),
   removeItem: id => dispatch(removeItemThunk(id)),
-  updateItemQuantity: (id, num) => dispatch(updateItemQuantityThunk(id, num))
+  // updateItemQuantity: (id, num) => dispatch(updateItemQuantityThunk(id, num))
+  updateItemQuantity: id => {
+    console.log(id)
+  }
 })
 
 class Cart extends Component {
@@ -43,7 +46,7 @@ class Cart extends Component {
               return (
                 <>
                   <div className="cart-table-cell-50">
-                    <a href={`/products/${product.id}`}>{product.name}</a>
+                    <Link to={`/products/${product.id}`}>{product.name}</Link>
                   </div>
                   <div className="cart-table-cell-25">
                     <input
@@ -52,20 +55,14 @@ class Cart extends Component {
                       min="0"
                       placeholder="1"
                     />
-                    <span
-                      className="pointer"
-                      onClick={() => this.props.removeItem(product.id)}
+                    <button
+                      onClick={() => this.props.updateItemQuantity(product.id)}
                     >
-                      {' '}
-                      Update{' '}
-                    </span>|
-                    <span
-                      className="pointer"
-                      onClick={() => this.props.removeItem(product.id)}
-                    >
-                      {' '}
-                      Remove{' '}
-                    </span>
+                      Update
+                    </button>
+                    <button onClick={() => this.props.removeItem(product.id)}>
+                      Remove
+                    </button>
                   </div>
                   <div className="cart-table-cell-25">${product.price}</div>
                 </>
