@@ -19,7 +19,7 @@ class SingleProduct extends Component {
     const id = this.props.data.id
     const imageUrl = this.props.data.imageUrl
     const name = this.props.data.name
-    const price = this.props.data.price
+    const price = Number(this.props.data.price)
     const guestCart = localStorage.getItem('cart')
     const newCartItem = {
       id: id,

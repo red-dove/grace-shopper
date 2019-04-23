@@ -25,6 +25,15 @@ class Cart extends Component {
     this.props.cartTotal()
   }
 
+  guestTotal() {
+    let currentGuestCart = JSON.parse(localStorage.getItem('cart'))
+    return currentGuestCart
+      .map(product => {
+        return product.price
+      })
+      .reduce((x, y) => x + y)
+  }
+
   guestRemoveItem(id) {
     let currentGuestCart = JSON.parse(localStorage.getItem('cart'))
     localStorage.setItem(
@@ -35,7 +44,8 @@ class Cart extends Component {
         })
       )
     )
-    this.props.getCart()
+
+    this.forceUpdate()
   }
 
   render() {
@@ -81,9 +91,9 @@ class Cart extends Component {
                       name="quantity"
                       type="number"
                       min="0"
-                      placeholder="1"
+                      placeholder={product.quantity}
                     />
-                    {/* <button>Update</button> */}
+                    <button>Update</button>
                     <button
                       onClick={
                         isLoggedIn
@@ -99,8 +109,15 @@ class Cart extends Component {
               )
             })}
           </div>
-
-          <div id="total">TOTAL: ${this.props.total}</div>
+          <div className="cart-table-row">
+            <div className="cart-table-cell-50" />
+            <div className="cart-table-cell-25">
+              <h5>TOTAL</h5>
+            </div>
+            <div className="cart-table-cell-25">
+              <h5>${isLoggedIn ? this.props.total : this.guestTotal()}</h5>
+            </div>
+          </div>
 
           <div id="checkOut">
             <button onClick={() => checkOut()}>Check Out</button>
