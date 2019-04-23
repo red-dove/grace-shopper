@@ -9,31 +9,42 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 
+const guestCart = JSON.parse(localStorage.getItem('cart'))
+
 class Cart extends Component {
   constructor(props) {
     super(props)
+
     this.guestRemoveItem = this.guestRemoveItem.bind(this)
-    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
+    const {isLoggedIn} = this.props
     this.props.getCart()
+    this.props.cartTotal()
+  }
+
+  componentDidUpdate() {
     this.props.cartTotal()
   }
 
   guestRemoveItem(id) {
     console.log('GUEST REMOVE')
-  }
-
-  handleChange(event) {
-    this.props.updateItemQuantity(id, event.target.value)
+    localStorage.setItem(
+      'cart',
+      JSON.stringify(
+        guestCart.filter(product => {
+          return product.id !== id
+        })
+      )
+    )
   }
 
   render() {
     let cart = this.props.cart
     const {isLoggedIn} = this.props
     if (!isLoggedIn) {
-      cart = JSON.parse(localStorage.getItem('cart'))
+      cart = guestCart
     }
 
     if (cart && cart.length > 0) {
@@ -72,9 +83,9 @@ class Cart extends Component {
                       name="quantity"
                       type="number"
                       min="0"
-                      placeholder={product.quantity}
+                      placeholder="1"
                     />
-                    <button>Update</button>
+                    {/* <button>Update</button> */}
                     <button
                       onClick={
                         isLoggedIn
@@ -94,7 +105,7 @@ class Cart extends Component {
           <div id="total">TOTAL: ${this.props.total}</div>
 
           <div id="checkOut">
-            <button>Check Out</button>
+            <button onClick={() => checkOut()}>Check Out</button>
           </div>
         </div>
       )
@@ -119,14 +130,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   getCart: () => dispatch(getCartThunk()),
   removeItem: id => dispatch(removeItemThunk(id)),
-
-  // updateItemQuantity: (id, num) => {
-  //   dispatch(updateItemQuantityThunk(id, num))
-  // },
-  cartTotal: () => dispatch(cartTotalThunk()),
-  updateItemQuantity: id => {
-    console.log(id)
-  }
+  cartTotal: () => dispatch(cartTotalThunk())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart)
