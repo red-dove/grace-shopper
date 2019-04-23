@@ -39,10 +39,6 @@
   height: 300px;
   width: 300px;
 }
-.container-child img:hover {
-  height: 270px;
-  width: 270px;
-}
 
 #nameStyle {
   margin-bottom: 10px;
