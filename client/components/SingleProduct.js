@@ -14,26 +14,29 @@ class SingleProduct extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    const product = this.props.data.id
+
     const {isLoggedIn} = this.props
+    const product = this.props.data.id
     const guestCart = localStorage.getItem('cart')
+    const newCartItem = {id: product, quantity: 1}
+
     if (!isLoggedIn && !guestCart) {
-      console.log('not logged in, no guest cart')
-      localStorage.setItem('cart', `[{id: ${product}, quantity: 1}]`)
+      localStorage.setItem('cart', JSON.stringify([newCartItem]))
     } else if (!isLoggedIn && guestCart) {
-      console.log('not logged in, HAS guest cart')
-      let array = JSON.parse(guestCart)
-      for (let i = 0; i < array.length; i++) {
-        if (array[i].id === product) {
-          array[i].quantity = array[i].quantity + 1
+      let parsedCartArray = JSON.parse(guestCart)
+      let itemExists = false
+
+      for (let i = 0; i < parsedCartArray.length; i++) {
+        if (parsedCartArray[i].id === product) {
+          parsedCartArray[i].quantity++
+          itemExists = true
           break
-        } else {
-          array.push({id: product, quantity: 1})
         }
       }
-      localStorage.setItem('cart', JSON.stringify(array))
+
+      if (!itemExists) parsedCartArray.push(newCartItem)
+      localStorage.setItem('cart', JSON.stringify(parsedCartArray))
     } else {
-      console.log('LOGGED IN')
       this.props.addToCart(product)
     }
   }
