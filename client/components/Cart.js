@@ -8,27 +8,24 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
 class Cart extends Component {
-  constructor() {
-    super()
-    //this.addTotal = this.addTotal.bind(this)
-  }
-  componentDidMount() {
-    const {isLoggedIn} = this.props
-    if (isLoggedIn) {
-      this.props.getCart()
-    }
+  constructor(props) {
+    super(props)
+
+    this.guestRemoveItem = this.guestRemoveItem.bind(this)
   }
 
-  // addTotal() {
-  //   totalPrice = this.props.cart.map(product => {return product.price}).reduce ((x,y)=>x+y)
-  //   return totalPrice
-  // }
+  componentDidMount() {
+    this.props.getCart()
+  }
+
+  guestRemoveItem(id) {
+    console.log('GUEST REMOVE')
+  }
 
   render() {
     let cart = this.props.cart
     const {isLoggedIn} = this.props
     if (!isLoggedIn) {
-      //console.log('Cart not logged in')
       cart = JSON.parse(localStorage.getItem('cart'))
     }
 
@@ -75,7 +72,13 @@ class Cart extends Component {
                     >
                       Update
                     </button>
-                    <button onClick={() => this.props.removeItem(product.id)}>
+                    <button
+                      onClick={
+                        isLoggedIn
+                          ? () => this.props.removeItem(product.id)
+                          : () => this.guestRemoveItem(product.id)
+                      }
+                    >
                       Remove
                     </button>
                   </div>
