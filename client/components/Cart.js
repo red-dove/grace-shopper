@@ -22,13 +22,14 @@ class Cart extends Component {
   // }
 
   render() {
-    if (this.props.cart && this.props.cart.length > 0) {
-      const totalPrice = this.props.cart
-        .map(product => {
-          return product.price
-        })
-        .reduce((x, y) => Number(x) + Number(y))
+    let cart = this.props.cart
+    const {isLoggedIn} = this.props
+    if (!isLoggedIn) {
+      //console.log('Cart not logged in')
+      cart = JSON.parse(localStorage.getItem('cart'))
+    }
 
+    if (cart && cart.length > 0) {
       return (
         <div className="cart-container">
           <h1>Your Cart</h1>
@@ -44,7 +45,7 @@ class Cart extends Component {
                 <h3>Price</h3>
               </div>
             </div>
-            {this.props.cart.map(product => {
+            {cart.map(product => {
               return (
                 <div className="cart-table-row" key={product.id}>
                   <div className="cart-table-cell-50">
@@ -64,7 +65,7 @@ class Cart extends Component {
                       name="quantity"
                       type="number"
                       min="0"
-                      placeholder="1"
+                      placeholder={product.quantity}
                     />
                     <button
                       onClick={() => this.props.updateItemQuantity(product.id)}
@@ -80,7 +81,7 @@ class Cart extends Component {
               )
             })}
           </div>
-          <div id="total">TOTAL: ${totalPrice} </div>
+          <div id="total">TOTAL: ${0} </div>
           <div id="checkOut">
             <button>Check Out</button>
           </div>
@@ -98,7 +99,8 @@ class Cart extends Component {
 
 const mapStateToProps = state => {
   return {
-    cart: state.cart.cart
+    cart: state.cart.cart,
+    isLoggedIn: !!state.user.id
   }
 }
 

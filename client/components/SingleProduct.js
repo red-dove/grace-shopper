@@ -16,9 +16,18 @@ class SingleProduct extends Component {
     event.preventDefault()
 
     const {isLoggedIn} = this.props
-    const product = this.props.data.id
+    const id = this.props.data.id
+    const imageUrl = this.props.data.imageUrl
+    const name = this.props.data.name
+    const price = this.props.data.price
     const guestCart = localStorage.getItem('cart')
-    const newCartItem = {id: product, quantity: 1}
+    const newCartItem = {
+      id: id,
+      quantity: 1,
+      imageUrl: imageUrl,
+      name: name,
+      price: price
+    }
 
     if (!isLoggedIn && !guestCart) {
       localStorage.setItem('cart', JSON.stringify([newCartItem]))
@@ -27,7 +36,7 @@ class SingleProduct extends Component {
       let itemExists = false
 
       for (let i = 0; i < parsedCartArray.length; i++) {
-        if (parsedCartArray[i].id === product) {
+        if (parsedCartArray[i].id === id) {
           parsedCartArray[i].quantity++
           itemExists = true
           break
@@ -37,7 +46,7 @@ class SingleProduct extends Component {
       if (!itemExists) parsedCartArray.push(newCartItem)
       localStorage.setItem('cart', JSON.stringify(parsedCartArray))
     } else {
-      this.props.addToCart(product)
+      this.props.addToCart(id)
     }
   }
 
