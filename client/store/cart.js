@@ -53,6 +53,25 @@ export const addToCartThunk = product => {
   }
 }
 
+
+export const addToCartGuestThunk = () => {
+  return async dispatch => {
+    try {
+      const localStorageGuest = localStorage.getItem("cart"); 
+      const result = localStorageGuest.map(product => {return product.id})
+      for (let i = 0; i < result.length; i++) {
+        const res = await axios.post(`/api/users/cart/checkoutGUest}`, result[i])
+        dispatch(addToCart(res.data))
+      }
+      // const res = await axios.post(`/api/users/cart/checkoutGUest}`, result)
+      // dispatch(addToCart(res.data))
+    } catch (err) {
+      console.log('ERROR', err)
+    }
+  }
+}
+
+
 export const getCartThunk = () => {
   return async dispatch => {
     try {
