@@ -8,7 +8,6 @@ import {
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
-import {DH_CHECK_P_NOT_SAFE_PRIME} from 'constants'
 
 
 
