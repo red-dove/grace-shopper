@@ -14,18 +14,37 @@ class Cart extends Component {
     super()
 
     this.handleChange = this.handleChange.bind(this)
+    this.checkOut = this.checkOut.bind(this)
+    this.routeChange = this.routeChange.bind(this)
+  }
+  routeChange() {
+    let path = '/signup'
+    this.props.history.push(path)
   }
   componentDidMount() {
     const {isLoggedIn} = this.props
-    if (isLoggedIn) {
-      this.props.getCart()
+    this.props.getCart()
+    this.props.cartTotal()
+    this.props.removeItem()
+  }
+  componentDidUpdate() {
+    this.props.cartTotal()
 
-      this.props.cartTotal()
-    }
   }
 
   handleChange(event) {
     this.props.updateItemQuantity(id, event.target.value)
+  }
+
+ async  checkOut() {
+  const {isLoggedIn} = this.props
+  if (!isLoggedIn) {
+    alert('You must sign up in order to checkout!')
+    // localStorage.setItem('cart', JSON.stringify([]))
+    this.routeChange()
+  }
+    await axios.put('/api/users/cart/checkout')
+   this.props.getCart()
   }
 
   render() {
@@ -34,6 +53,9 @@ class Cart extends Component {
     if (!isLoggedIn) {
       //console.log('Cart not logged in')
       cart = JSON.parse(localStorage.getItem('cart'))
+      if (JSON.parse(localStorage.getItem('cart'))) {
+        cart = JSON.parse(localStorage.getItem('cart'))
+      }
     }
 
     if (cart && cart.length > 0) {
@@ -88,7 +110,9 @@ class Cart extends Component {
           <div id="total">TOTAL: ${this.props.total}</div>
 
           <div id="checkOut">
-            <button>Check Out</button>
+            <button onClick={this.checkOut}>
+              Check Out
+            </button>
           </div>
         </div>
       )

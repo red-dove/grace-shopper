@@ -11,10 +11,11 @@ const REMOVE_ITEM = 'REMOVE_ITEM'
 const UPDATE_ITEM_QUANTITY = 'UPDATE_ITEM_QUANTITY'
 const CART_TOTAL = 'CART_TOTAL'
 
+
 const getCart = products => {
   return {
     type: GET_CART,
-    products 
+    products
   }
 }
 
@@ -38,14 +39,8 @@ const cartTotal = total => ({
   total
 })
 
-// const totalPrice = this.props.cart
-//         .map(product => {
-//           return product.price
-//         })
-//         .reduce((x, y) => Number(x) + Number(y))
-// export const cartTotal () {
 
-// }
+
 
 export const addToCartThunk = product => {
   return async dispatch => {
