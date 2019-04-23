@@ -13,7 +13,10 @@ class Cart extends Component {
     //this.addTotal = this.addTotal.bind(this)
   }
   componentDidMount() {
-    this.props.getCart()
+    const {isLoggedIn} = this.props
+    if (isLoggedIn) {
+      this.props.getCart()
+    }
   }
 
   // addTotal() {
