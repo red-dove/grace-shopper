@@ -9,8 +9,6 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 
-const guestCart = JSON.parse(localStorage.getItem('cart'))
-
 class Cart extends Component {
   constructor(props) {
     super(props)
@@ -19,7 +17,6 @@ class Cart extends Component {
   }
 
   componentDidMount() {
-    const {isLoggedIn} = this.props
     this.props.getCart()
     this.props.cartTotal()
   }
@@ -29,22 +26,23 @@ class Cart extends Component {
   }
 
   guestRemoveItem(id) {
-    console.log('GUEST REMOVE')
+    let currentGuestCart = JSON.parse(localStorage.getItem('cart'))
     localStorage.setItem(
       'cart',
       JSON.stringify(
-        guestCart.filter(product => {
+        currentGuestCart.filter(product => {
           return product.id !== id
         })
       )
     )
+    this.props.getCart()
   }
 
   render() {
     let cart = this.props.cart
     const {isLoggedIn} = this.props
     if (!isLoggedIn) {
-      cart = guestCart
+      cart = JSON.parse(localStorage.getItem('cart'))
     }
 
     if (cart && cart.length > 0) {
