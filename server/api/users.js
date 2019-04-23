@@ -71,7 +71,20 @@ router.get('/:userId/orders/:productId', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
+}) 
+
+
+router.post('/cart/checkoutGuest', async (req, res, next) => {
+  try {
+    const userId = req.session.passport.user  
+    const productId = req.body; 
+    const postedItem = await CartOrders.create({userId, productId})
+    res.json(postedItem)
+  } catch (error) {
+    next(error)
+  }
 })
+
 
 
 

@@ -3,7 +3,8 @@ import {
   getCartThunk,
   removeItemThunk,
   updateItemQuantityThunk,
-  cartTotalThunk
+  cartTotalThunk,
+  addToCartGuestThunk
 } from '../store/cart'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
@@ -26,6 +27,7 @@ class Cart extends Component {
     this.props.getCart()
     this.props.cartTotal()
     this.props.removeItem()
+    this.props.addtoCartGuest()
   }
   componentDidUpdate() {
     this.props.cartTotal()
@@ -165,6 +167,15 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   getCart: () => dispatch(getCartThunk()),
   removeItem: id => dispatch(removeItemThunk(id)),
+
+  updateItemQuantity: (id, num) => {
+    dispatch(updateItemQuantityThunk(id, num))
+  },
+  cartTotal: () => dispatch(cartTotalThunk()),
+  updateItemQuantity: id => {
+    console.log(id)
+  },
+  addtoCartGuest:  () => dispatch(addToCartGuestThunk()),
   cartTotal: () => dispatch(cartTotalThunk())
 })
 
