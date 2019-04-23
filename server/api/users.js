@@ -87,7 +87,7 @@ router.get('/:userId', async (req, res, next) => {
 
 // router.get('/profile', async (req, res, next) => {
 //   try {
-//     const userId = req.session.passport.user  
+//     const userId = req.session.passport.user
 //     console.log(req.session.passport.user)
 //     const foundUser = await User.findOne({
 //       where: {
@@ -97,7 +97,7 @@ router.get('/:userId', async (req, res, next) => {
 //     res.send(foundUser)
 //   } catch (error) {
 //     next(error)
-//   } 
+//   }
 // })
 
 
@@ -113,8 +113,20 @@ router.put('/profile', async (req, res, next) => {
 
     const result = await user.update (req.body)
     res.json(result)
-    
+
   } catch (err) {
     res.sendStatus(500)
   }
 })
+
+
+// router.get('/cartInfo', async (req, res, next) => {
+//   const userId = req.session.passport.user
+//   const userCart = await CartOrders.findAll({
+//     where: {
+//       userId: userId,
+//       order: null
+//     },
+//     include: [{model: Product}]
+//  })
+// })
