@@ -11,6 +11,12 @@ const CartOrders = require('./cartOrders')
 
 User.belongsToMany(Product, {through: 'cartOrders'})
 Product.belongsToMany(User, {through: 'cartOrders'})
+// CartOrders.belongsTo(User)
+// User.hasMany(CartOrders)
+// CartOrders.hasMany(Product)
+// Product.belongsTo(CartOrders)
+
+
 
 // CartOrders.belongsTo(Product)
 
