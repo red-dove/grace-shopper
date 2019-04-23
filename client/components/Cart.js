@@ -2,45 +2,53 @@ import React, {Component} from 'react'
 import {
   getCartThunk,
   removeItemThunk,
-  updateItemQuantityThunk
+  updateItemQuantityThunk,
+  cartTotalThunk
 } from '../store/cart'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
+import {DH_CHECK_P_NOT_SAFE_PRIME} from 'constants'
 
-const mapStateToProps = state => {
-  return {
-    cart: state.cart.cart
-  }
-}
 
-const mapDispatchToProps = dispatch => ({
-  getCart: () => dispatch(getCartThunk()),
-  removeItem: id => dispatch(removeItemThunk(id)),
-  // updateItemQuantity: (id, num) => dispatch(updateItemQuantityThunk(id, num))
-  updateItemQuantity: id => {
-    console.log(id)
-  }
-})
 
 class Cart extends Component {
   constructor() {
     super()
-//this.addTotal = this.addTotal.bind(this)
-    }  
-  componentDidMount() {
+    // this.state = {
+    //   total:this.state.cartTotal
+    // }
+    this.handleChange = this.handleChange.bind(this);
+  }
+   componentDidMount() {
     this.props.getCart()
+   this.props.cartTotal()
+
+  //   const res = await axios.get('/api/users/cart/quantity')
+  //   console.log(res.data)
+  //  // this.setState({quantityObj: res.data})
+
+    // this.setState
   }
 
-  // addTotal() {
-  //   totalPrice = this.props.cart.map(product => {return product.price}).reduce ((x,y)=>x+y)
-  //   return totalPrice
-  // }
+  handleChange(event) {
+    this.props.updateItemQuantity( id,  event.target.value )
+  
+  }
 
-  renderItems() {
+   renderItems() {
+   // console.log('CART TOTAL!!', this.props.total)
+
     if (this.props.cart && this.props.cart.length > 0) {
-      const totalPrice = this.props.cart.map(product => {return product.price}).reduce
-       ((x,y)=> Number(x)+ Number(y))
-   
+      
+
+        // const itemsInCart =  this.state.quantityObj.map(item => {
+        
+        // })
+        // console.log('!!!!!!!', this.state.quantityObj)
+
+ 
+  
       return (
         <div className="cart-container">
           <h1>Your Cart</h1>
@@ -72,9 +80,16 @@ class Cart extends Component {
                       type="number"
                       min="0"
                       placeholder="1"
+                      // value={this.state.quantity}
+                      //  onChange={this.handleChange}
                     />
                     <button
-                      onClick={() => this.props.updateItemQuantity(product.id)}
+                      // onClick={() =>
+                      //   this.props.updateItemQuantity(
+                      //     product.id,
+                      //     this.state.quantity
+                      //   )
+                      // }
                     >
                       Update
                     </button>
@@ -87,13 +102,22 @@ class Cart extends Component {
               )
             })}
           </div>
-          <div  id="total" >TOTAL: ${totalPrice} </div>
-          <div id='checkOut'><button>Check Out</button></div>
+
+
+          <div id="total">TOTAL: ${ this.props.total}</div>
+
+
+          <div id="checkOut">
+            <button>Check Out</button>
+          </div>
         </div>
-        
       )
     } else {
-      return <div className='container'><br /> <br />Your Cart Is Currently Empty</div>
+      return (
+        <div className="container">
+          <br /> <br />Your Cart Is Currently Empty
+        </div>
+      )
     }
   }
 
@@ -101,5 +125,21 @@ class Cart extends Component {
     return <div>{this.renderItems()}</div>
   }
 }
+const mapStateToProps = state => {
+ console.log('!!!!!', state.cart.cartTotal)
+  return {
+    cart: state.cart.cart,
+    total: state.cart.cartTotal,
+  }
+}
 
+const mapDispatchToProps = dispatch => ({
+  getCart: () => dispatch(getCartThunk()),
+  removeItem: id => dispatch(removeItemThunk(id)),
+
+  updateItemQuantity: (id, num) => {
+    dispatch(updateItemQuantityThunk(id, num))
+  },
+  cartTotal: () => dispatch(cartTotalThunk())
+})
 export default connect(mapStateToProps, mapDispatchToProps)(Cart)

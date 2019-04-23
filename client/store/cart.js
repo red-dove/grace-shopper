@@ -1,19 +1,20 @@
 import axios from 'axios'
 
 const initialState = {
-  cart: []
+  cart: [],
+  cartTotal: 0
 }
 
 const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_ITEM = 'REMOVE_ITEM'
 const UPDATE_ITEM_QUANTITY = 'UPDATE_ITEM_QUANTITY'
-
+const CART_TOTAL = 'CART_TOTAL'
 
 const getCart = products => {
   return {
     type: GET_CART,
-    products
+    products 
   }
 }
 
@@ -32,8 +33,19 @@ const updateItemQuantity = (id, num) => ({
   id,
   num
 })
+const cartTotal = total => ({
+  type: CART_TOTAL,
+  total
+})
 
+// const totalPrice = this.props.cart
+//         .map(product => {
+//           return product.price
+//         })
+//         .reduce((x, y) => Number(x) + Number(y))
+// export const cartTotal () {
 
+// }
 
 export const addToCartThunk = product => {
   return async dispatch => {
@@ -85,6 +97,23 @@ export const updateItemQuantityThunk = (id, num) => {
   }
 }
 
+export const cartTotalThunk = () => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get(`/api/users/cart`)
+      let result = data
+        .map(product => {
+          return product.price
+        })
+        .reduce((x, y) => x + y)
+      let newResult = (result / 100).toFixed(2)
+      dispatch(cartTotal(newResult))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 export default function(state = initialState, action) {
   switch (action.type) {
     case ADD_TO_CART:
@@ -98,6 +127,13 @@ export default function(state = initialState, action) {
           return product.id !== action.id
         })
       }
+    case CART_TOTAL:
+      return {...state, cartTotal: action.total}
+    // case UPDATE_ITEM_QUANTITY:
+    //   cart = state.cart.map(elem => {
+    //      return { ...elem, quantity: action.num };
+    //  });
+    //  return { ...state, cart };
     default:
       return state
   }

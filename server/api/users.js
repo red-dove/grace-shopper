@@ -7,9 +7,10 @@ router.get('/cart', async (req, res, next) => {
   const userProductObjectArray = await CartOrders.findAll({
     where: {
       userId: userId,
-      order: null
-    },
-    attributes: ['productId']
+      order: null,
+      
+    }
+  
   })
 
   const arrayOfProductNumbers = userProductObjectArray.map(prod => {
@@ -21,24 +22,33 @@ router.get('/cart', async (req, res, next) => {
       id: arrayOfProductNumbers
     }
   })
+
+
+  // const cart = await CartOrders.findAll({
+  //   where: {
+  //     productId: arrayOfProductNumbers
+  //   }, 
+  //   include: [{
+  //     model:Product,
+  //   }]
+  // })
   res.json(productsInCart)
 })
 
-router.delete('/cart/:productId', async (req, res, next) => {
-  try {
-    const userId = req.session.passport.user
-    const productId = req.params.productId
-    await CartOrders.destroy({
-      where: {
-        userId,
-        productId
-      }
-    })
-    res.sendStatus(204)
-  } catch (error) {
-    next(error)
-  }
+router.get('/cart/quantity', async (req, res, next) => {
+  const userId = req.session.passport.user
+  const userProductObjectArray = await CartOrders.findAll({
+    where: {
+      userId: userId,
+      order: null
+    },
+    attributes: ['productId', 'quantity']
+  })
+  res.json(userProductObjectArray)
 })
+
+
+
 
 router.get('/:userId/orders/:productId', async (req, res, next) => {
   try {
@@ -116,5 +126,40 @@ router.put('/profile', async (req, res, next) => {
     
   } catch (err) {
     res.sendStatus(500)
+  }
+})
+
+router.put('/cart', async(req,res,next) => {
+  try{
+    const userId = req.session.passport.user
+    const cart = await CartOrders.findOne ({
+      where:{
+        id:userId
+      }
+    })
+    const result = await cart.update (req.body)// ({quantity:req.body.quantity} , {where: {id: req.session.passport.user}})
+    res.json(result)
+  }
+  catch (err){
+      next(err)
+    }
+})
+
+
+
+
+router.delete('/cart/:productId', async (req, res, next) => {
+  try {
+    const userId = req.session.passport.user
+    const productId = req.params.productId
+    await CartOrders.destroy({
+      where: {
+        userId,
+        productId
+      }
+    })
+    res.sendStatus(204)
+  } catch (error) {
+    next(error)
   }
 })
