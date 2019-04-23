@@ -3,38 +3,55 @@ const {User, CartOrders, Product} = require('../db/models')
 module.exports = router
 
 router.get('/cart', async (req, res, next) => {
-  const userId = req.session.passport.user
-  const userProductObjectArray = await CartOrders.findAll({
-    where: {
-      userId: userId,
-      order: null
-    },
-    attributes: ['productId']
-  })
-
-  const arrayOfProductNumbers = userProductObjectArray.map(prod => {
-    return prod.productId
-  })
-
-  const productsInCart = await Product.findAll({
-    where: {
-      id: arrayOfProductNumbers
-    }
-  })
-  res.json(productsInCart)
-})
-
-router.delete('/cart/:productId', async (req, res, next) => {
   try {
     const userId = req.session.passport.user
-    const productId = req.params.productId
-    await CartOrders.destroy({
+    const userProductObjectArray = await CartOrders.findAll({
       where: {
-        userId,
-        productId
+        userId: userId,
+        order: null
+      },
+      attributes: ['productId']
+    })
+
+    const arrayOfProductNumbers = userProductObjectArray.map(prod => {
+      return prod.productId
+    })
+
+    const productsInCart = await Product.findAll({
+      where: {
+        id: arrayOfProductNumbers
       }
     })
-    res.sendStatus(204)
+    res.json(productsInCart)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// get specific user by id
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const userId = req.params.userId
+    const foundUser = await User.findOne({
+      where: {
+        id: Number(userId)
+      }
+    })
+    res.json(foundUser)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/:userId/orders', async (req, res, next) => {
+  try {
+    const userId = req.params.userId
+    const userAllOrders = await CartOrders.findAll({
+      where: {
+        userId: userId
+      }
+    })
+    res.json(userAllOrders)
   } catch (error) {
     next(error)
   }
@@ -56,52 +73,6 @@ router.get('/:userId/orders/:productId', async (req, res, next) => {
   }
 })
 
-router.get('/:userId/orders', async (req, res, next) => {
-  try {
-    const userId = req.params.userId
-    const userAllOrders = await CartOrders.findAll({
-      where: {
-        userId: userId
-      }
-    })
-    res.json(userAllOrders)
-  } catch (error) {
-    next(error)
-  }
-})
-
-// get specific user by id
-router.get('/:userId', async (req, res, next) => {
-  try {
-    const userId = req.params.userId
-    const foundUser = await User.findOne({
-      where: {
-        id: Number(userId)
-      }
-    })
-    res.json(foundUser)
-  } catch (error) {
-    next(error)
-  }
-})
-
-// router.get('/profile', async (req, res, next) => {
-//   try {
-//     const userId = req.session.passport.user  
-//     console.log(req.session.passport.user)
-//     const foundUser = await User.findOne({
-//       where: {
-//         id: Number(userId)
-//       }
-//     })
-//     res.send(foundUser)
-//   } catch (error) {
-//     next(error)
-//   } 
-// })
-
-
-
 router.put('/profile', async (req, res, next) => {
   try {
     const userId = req.session.passport.user
@@ -111,10 +82,25 @@ router.put('/profile', async (req, res, next) => {
       }
     })
 
-    const result = await user.update (req.body)
+    const result = await user.update(req.body)
     res.json(result)
-    
   } catch (err) {
     res.sendStatus(500)
+  }
+})
+
+router.delete('/cart/:productId', async (req, res, next) => {
+  try {
+    const userId = req.session.passport.user
+    const productId = req.params.productId
+    await CartOrders.destroy({
+      where: {
+        userId,
+        productId
+      }
+    })
+    res.sendStatus(204)
+  } catch (error) {
+    next(error)
   }
 })

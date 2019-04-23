@@ -7,26 +7,11 @@ import {
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
-const mapStateToProps = state => {
-  return {
-    cart: state.cart.cart
-  }
-}
-
-const mapDispatchToProps = dispatch => ({
-  getCart: () => dispatch(getCartThunk()),
-  removeItem: id => dispatch(removeItemThunk(id)),
-  // updateItemQuantity: (id, num) => dispatch(updateItemQuantityThunk(id, num))
-  updateItemQuantity: id => {
-    console.log(id)
-  }
-})
-
 class Cart extends Component {
   constructor() {
     super()
-//this.addTotal = this.addTotal.bind(this)
-    }  
+    //this.addTotal = this.addTotal.bind(this)
+  }
   componentDidMount() {
     this.props.getCart()
   }
@@ -36,11 +21,14 @@ class Cart extends Component {
   //   return totalPrice
   // }
 
-  renderItems() {
+  render() {
     if (this.props.cart && this.props.cart.length > 0) {
-      const totalPrice = this.props.cart.map(product => {return product.price}).reduce
-       ((x,y)=> Number(x)+ Number(y))
-   
+      const totalPrice = this.props.cart
+        .map(product => {
+          return product.price
+        })
+        .reduce((x, y) => Number(x) + Number(y))
+
       return (
         <div className="cart-container">
           <h1>Your Cart</h1>
@@ -92,19 +80,35 @@ class Cart extends Component {
               )
             })}
           </div>
-          <div  id="total" >TOTAL: ${totalPrice} </div>
-          <div id='checkOut'><button>Check Out</button></div>
+          <div id="total">TOTAL: ${totalPrice} </div>
+          <div id="checkOut">
+            <button>Check Out</button>
+          </div>
         </div>
-        
       )
     } else {
-      return <div className='container'><br /> <br />Your Cart Is Currently Empty</div>
+      return (
+        <div className="container">
+          <br /> <br />Your Cart Is Currently Empty
+        </div>
+      )
     }
   }
+}
 
-  render() {
-    return <div>{this.renderItems()}</div>
+const mapStateToProps = state => {
+  return {
+    cart: state.cart.cart
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  getCart: () => dispatch(getCartThunk()),
+  removeItem: id => dispatch(removeItemThunk(id)),
+  // updateItemQuantity: (id, num) => dispatch(updateItemQuantityThunk(id, num))
+  updateItemQuantity: id => {
+    console.log(id)
+  }
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart)
