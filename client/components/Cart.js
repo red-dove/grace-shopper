@@ -2,24 +2,31 @@ import React, {Component} from 'react'
 import {
   getCartThunk,
   removeItemThunk,
-  updateItemQuantityThunk
+  updateItemQuantityThunk,
+  cartTotalThunk
 } from '../store/cart'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 
 class Cart extends Component {
   constructor(props) {
     super(props)
-
     this.guestRemoveItem = this.guestRemoveItem.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
     this.props.getCart()
+    this.props.cartTotal()
   }
 
   guestRemoveItem(id) {
     console.log('GUEST REMOVE')
+  }
+
+  handleChange(event) {
+    this.props.updateItemQuantity(id, event.target.value)
   }
 
   render() {
@@ -67,11 +74,7 @@ class Cart extends Component {
                       min="0"
                       placeholder={product.quantity}
                     />
-                    <button
-                      onClick={() => this.props.updateItemQuantity(product.id)}
-                    >
-                      Update
-                    </button>
+                    <button>Update</button>
                     <button
                       onClick={
                         isLoggedIn
@@ -87,7 +90,9 @@ class Cart extends Component {
               )
             })}
           </div>
-          <div id="total">TOTAL: ${0} </div>
+
+          <div id="total">TOTAL: ${this.props.total}</div>
+
           <div id="checkOut">
             <button>Check Out</button>
           </div>
@@ -106,6 +111,7 @@ class Cart extends Component {
 const mapStateToProps = state => {
   return {
     cart: state.cart.cart,
+    total: state.cart.cartTotal,
     isLoggedIn: !!state.user.id
   }
 }
@@ -113,7 +119,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   getCart: () => dispatch(getCartThunk()),
   removeItem: id => dispatch(removeItemThunk(id)),
-  // updateItemQuantity: (id, num) => dispatch(updateItemQuantityThunk(id, num))
+
+  // updateItemQuantity: (id, num) => {
+  //   dispatch(updateItemQuantityThunk(id, num))
+  // },
+  cartTotal: () => dispatch(cartTotalThunk()),
   updateItemQuantity: id => {
     console.log(id)
   }
