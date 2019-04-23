@@ -15,60 +15,60 @@ import {DH_CHECK_P_NOT_SAFE_PRIME} from 'constants'
 class Cart extends Component {
   constructor() {
     super()
-    // this.state = {
-    //   total:this.state.cartTotal
-    // }
+
     this.handleChange = this.handleChange.bind(this);
   }
    componentDidMount() {
+    const {isLoggedIn} = this.props
+    if (isLoggedIn) {
+      this.props.getCart()
     this.props.getCart()
    this.props.cartTotal()
 
-  //   const res = await axios.get('/api/users/cart/quantity')
-  //   console.log(res.data)
-  //  // this.setState({quantityObj: res.data})
-
-    // this.setState
+   }
   }
 
   handleChange(event) {
     this.props.updateItemQuantity( id,  event.target.value )
-  
   }
-
-   renderItems() {
-   // console.log('CART TOTAL!!', this.props.total)
-
-    if (this.props.cart && this.props.cart.length > 0) {
-      
-
-        // const itemsInCart =  this.state.quantityObj.map(item => {
-        
-        // })
-        // console.log('!!!!!!!', this.state.quantityObj)
-
- 
   
+
+   
+
+  render() {
+    let cart = this.props.cart
+    const {isLoggedIn} = this.props
+    if (!isLoggedIn) {
+      //console.log('Cart not logged in')
+      cart = JSON.parse(localStorage.getItem('cart'))
+    }
+
+    if (cart && cart.length > 0) {
       return (
         <div className="cart-container">
           <h1>Your Cart</h1>
           <div className="cart-table">
-            <div className="cart-table-cell-50">
-              <h3>Item</h3>
+            <div className="cart-table-row">
+              <div className="cart-table-cell-50">
+                <h3>Item</h3>
+              </div>
+              <div className="cart-table-cell-25">
+                <h3>Quantity</h3>
+              </div>
+              <div className="cart-table-cell-25">
+                <h3>Price</h3>
+              </div>
             </div>
-            <div className="cart-table-cell-25">
-              <h3>Quantity</h3>
-            </div>
-            <div className="cart-table-cell-25">
-              <h3>Price</h3>
-            </div>
-            {this.props.cart.map(product => {
+            {cart.map(product => {
               return (
-                <>
+                <div className="cart-table-row" key={product.id}>
                   <div className="cart-table-cell-50">
-                    <Link to={`/products/${product.id}`}>
+                    <Link
+                      to={`/products/${product.id}`}
+                      className="cart-table-link"
+                    >
                       <img
-                        src={`${product.imageUrl}`}
+                        src={product.imageUrl}
                         className="cart-table-product-img"
                       />
                       {product.name}
@@ -79,17 +79,10 @@ class Cart extends Component {
                       name="quantity"
                       type="number"
                       min="0"
-                      placeholder="1"
-                      // value={this.state.quantity}
-                      //  onChange={this.handleChange}
+                      placeholder={product.quantity}
                     />
                     <button
-                      // onClick={() =>
-                      //   this.props.updateItemQuantity(
-                      //     product.id,
-                      //     this.state.quantity
-                      //   )
-                      // }
+   
                     >
                       Update
                     </button>
@@ -98,7 +91,7 @@ class Cart extends Component {
                     </button>
                   </div>
                   <div className="cart-table-cell-25">${product.price}</div>
-                </>
+                </div>
               )
             })}
           </div>
@@ -120,16 +113,15 @@ class Cart extends Component {
       )
     }
   }
-
-  render() {
-    return <div>{this.renderItems()}</div>
-  }
 }
+  
+
 const mapStateToProps = state => {
  console.log('!!!!!', state.cart.cartTotal)
   return {
     cart: state.cart.cart,
     total: state.cart.cartTotal,
+    isLoggedIn: !!state.user.id
   }
 }
 
@@ -140,6 +132,9 @@ const mapDispatchToProps = dispatch => ({
   updateItemQuantity: (id, num) => {
     dispatch(updateItemQuantityThunk(id, num))
   },
-  cartTotal: () => dispatch(cartTotalThunk())
+  cartTotal: () => dispatch(cartTotalThunk()), updateItemQuantity: id => {
+    console.log(id)
+  }
 })
+
 export default connect(mapStateToProps, mapDispatchToProps)(Cart)

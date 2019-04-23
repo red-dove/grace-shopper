@@ -3,78 +3,26 @@ const {User, CartOrders, Product} = require('../db/models')
 module.exports = router
 
 router.get('/cart', async (req, res, next) => {
-  const userId = req.session.passport.user
-  const userProductObjectArray = await CartOrders.findAll({
-    where: {
-      userId: userId,
-      order: null,
-      
-    }
-  
-  })
-
-  const arrayOfProductNumbers = userProductObjectArray.map(prod => {
-    return prod.productId
-  })
-
-  const productsInCart = await Product.findAll({
-    where: {
-      id: arrayOfProductNumbers
-    }
-  })
-
-
-  // const cart = await CartOrders.findAll({
-  //   where: {
-  //     productId: arrayOfProductNumbers
-  //   }, 
-  //   include: [{
-  //     model:Product,
-  //   }]
-  // })
-  res.json(productsInCart)
-})
-
-router.get('/cart/quantity', async (req, res, next) => {
-  const userId = req.session.passport.user
-  const userProductObjectArray = await CartOrders.findAll({
-    where: {
-      userId: userId,
-      order: null
-    },
-    attributes: ['productId', 'quantity']
-  })
-  res.json(userProductObjectArray)
-})
-
-
-
-
-router.get('/:userId/orders/:productId', async (req, res, next) => {
   try {
-    const userId = req.params.userId
-    const productId = req.params.productId
-    const userSingleOrder = await CartOrders.findOne({
+    const userId = req.session.passport.user
+    const userProductObjectArray = await CartOrders.findAll({
       where: {
         userId: userId,
-        productId: productId
-      }
+        order: null
+      },
+      attributes: ['productId']
     })
-    res.json(userSingleOrder)
-  } catch (error) {
-    next(error)
-  }
-})
 
-router.get('/:userId/orders', async (req, res, next) => {
-  try {
-    const userId = req.params.userId
-    const userAllOrders = await CartOrders.findAll({
+    const arrayOfProductNumbers = userProductObjectArray.map(prod => {
+      return prod.productId
+    })
+
+    const productsInCart = await Product.findAll({
       where: {
-        userId: userId
+        id: arrayOfProductNumbers
       }
     })
-    res.json(userAllOrders)
+    res.json(productsInCart)
   } catch (error) {
     next(error)
   }
@@ -95,22 +43,35 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-// router.get('/profile', async (req, res, next) => {
-//   try {
-//     const userId = req.session.passport.user  
-//     console.log(req.session.passport.user)
-//     const foundUser = await User.findOne({
-//       where: {
-//         id: Number(userId)
-//       }
-//     })
-//     res.send(foundUser)
-//   } catch (error) {
-//     next(error)
-//   } 
-// })
+router.get('/:userId/orders', async (req, res, next) => {
+  try {
+    const userId = req.params.userId
+    const userAllOrders = await CartOrders.findAll({
+      where: {
+        userId: userId
+      }
+    })
+    res.json(userAllOrders)
+  } catch (error) {
+    next(error)
+  }
+})
 
-
+router.get('/:userId/orders/:productId', async (req, res, next) => {
+  try {
+    const userId = req.params.userId
+    const productId = req.params.productId
+    const userSingleOrder = await CartOrders.findOne({
+      where: {
+        userId: userId,
+        productId: productId
+      }
+    })
+    res.json(userSingleOrder)
+  } catch (error) {
+    next(error)
+  }
+})
 
 router.put('/profile', async (req, res, next) => {
   try {
@@ -121,9 +82,8 @@ router.put('/profile', async (req, res, next) => {
       }
     })
 
-    const result = await user.update (req.body)
+    const result = await user.update(req.body)
     res.json(result)
-    
   } catch (err) {
     res.sendStatus(500)
   }
