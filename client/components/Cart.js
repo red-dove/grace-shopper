@@ -9,30 +9,24 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 
-
-
 class Cart extends Component {
   constructor() {
     super()
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChange = this.handleChange.bind(this)
   }
-   componentDidMount() {
+  componentDidMount() {
     const {isLoggedIn} = this.props
     if (isLoggedIn) {
       this.props.getCart()
-    this.props.getCart()
-   this.props.cartTotal()
 
-   }
+      this.props.cartTotal()
+    }
   }
 
   handleChange(event) {
-    this.props.updateItemQuantity( id,  event.target.value )
+    this.props.updateItemQuantity(id, event.target.value)
   }
-  
-
-   
 
   render() {
     let cart = this.props.cart
@@ -80,11 +74,7 @@ class Cart extends Component {
                       min="0"
                       placeholder={product.quantity}
                     />
-                    <button
-   
-                    >
-                      Update
-                    </button>
+                    <button>Update</button>
                     <button onClick={() => this.props.removeItem(product.id)}>
                       Remove
                     </button>
@@ -95,9 +85,7 @@ class Cart extends Component {
             })}
           </div>
 
-
-          <div id="total">TOTAL: ${ this.props.total}</div>
-
+          <div id="total">TOTAL: ${this.props.total}</div>
 
           <div id="checkOut">
             <button>Check Out</button>
@@ -113,10 +101,8 @@ class Cart extends Component {
     }
   }
 }
-  
 
 const mapStateToProps = state => {
- console.log('!!!!!', state.cart.cartTotal)
   return {
     cart: state.cart.cart,
     total: state.cart.cartTotal,
@@ -131,7 +117,8 @@ const mapDispatchToProps = dispatch => ({
   updateItemQuantity: (id, num) => {
     dispatch(updateItemQuantityThunk(id, num))
   },
-  cartTotal: () => dispatch(cartTotalThunk()), updateItemQuantity: id => {
+  cartTotal: () => dispatch(cartTotalThunk()),
+  updateItemQuantity: id => {
     console.log(id)
   }
 })

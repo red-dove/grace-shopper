@@ -89,21 +89,21 @@ router.put('/profile', async (req, res, next) => {
   }
 })
 
-router.put('/cart', async(req,res,next) => {
-  try{
-    const userId = req.session.passport.user
-    const cart = await CartOrders.findOne ({
-      where:{
-        id:userId
-      }
-    })
-    const result = await cart.update (req.body)// ({quantity:req.body.quantity} , {where: {id: req.session.passport.user}})
-    res.json(result)
-  }
-  catch (err){
-      next(err)
-    }
-})
+// router.put('/cart', async(req,res,next) => {
+//   try{
+//     const userId = req.session.passport.user
+//     const cart = await CartOrders.findOne ({
+//       where:{
+//         id:userId
+//       }
+//     })
+//     const result = await cart.update (req.body)// ({quantity:req.body.quantity} , {where: {id: req.session.passport.user}})
+//     res.json(result)
+//   }
+//   catch (err){
+//       next(err)
+//     }
+// })
 
 
 
