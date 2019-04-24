@@ -71,22 +71,18 @@ router.get('/:userId/orders/:productId', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
-}) 
+})
 
-
-router.post('/cart/checkoutGuest', async (req, res, next) => {
+router.post('/cart/checkoutguest', async (req, res, next) => {
   try {
-    const userId = req.session.passport.user  
-    const productId = req.body; 
+    const userId = req.session.passport.user
+    const productId = req.body
     const postedItem = await CartOrders.create({userId, productId})
     res.json(postedItem)
   } catch (error) {
     next(error)
   }
 })
-
-
-
 
 router.put('/profile', async (req, res, next) => {
   try {
@@ -104,42 +100,45 @@ router.put('/profile', async (req, res, next) => {
   }
 })
 
-router.put('/cart', async(req,res,next) => {
-  try{
+router.put('/cart', async (req, res, next) => {
+  try {
     const userId = req.session.passport.user
-    const cart = await CartOrders.findOne ({
-      where:{
-        id:userId
+    const cart = await CartOrders.findOne({
+      where: {
+        id: userId
       }
     })
-    const result = await cart.update (req.body)// ({quantity:req.body.quantity} , {where: {id: req.session.passport.user}})
+    const result = await cart.update(req.body) // ({quantity:req.body.quantity} , {where: {id: req.session.passport.user}})
     res.json(result)
+  } catch (err) {
+    next(err)
   }
-  catch (err){
-      next(err)
-    }
 })
 
-router.put('/cart/checkout', async(req,res,next) => {
-  try{
+router.put('/cart/checkout', async (req, res, next) => {
+  try {
     let num = await CartOrders.max('order')
-    if(num === null) {num =1} else {num = num+1}
-    const userId =  req.session.passport.user
-    const cart = await CartOrders.update ({order: num }, {
-      where:{
-        userId: userId,
-        order: null
-      }
-    })
-    res.json(cart)
-  }
-  catch (err){
-      next(err)
+    console.log(num)
+    if (!num) {
+      num = 1
+    } else {
+      num++
     }
+    const userId = req.session.passport.user
+    const cart = await CartOrders.update(
+      {order: num},
+      {
+        where: {
+          userId: userId,
+          order: null
+        }
+      }
+    )
+    res.json(cart)
+  } catch (err) {
+    next(err)
+  }
 })
-
-
-
 
 router.delete('/cart/:productId', async (req, res, next) => {
   try {

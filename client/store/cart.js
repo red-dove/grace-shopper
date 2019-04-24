@@ -11,7 +11,6 @@ const REMOVE_ITEM = 'REMOVE_ITEM'
 const UPDATE_ITEM_QUANTITY = 'UPDATE_ITEM_QUANTITY'
 const CART_TOTAL = 'CART_TOTAL'
 
-
 const getCart = products => {
   return {
     type: GET_CART,
@@ -39,9 +38,6 @@ const cartTotal = total => ({
   total
 })
 
-
-
-
 export const addToCartThunk = product => {
   return async dispatch => {
     try {
@@ -53,14 +49,15 @@ export const addToCartThunk = product => {
   }
 }
 
-
 export const addToCartGuestThunk = () => {
   return async dispatch => {
     try {
-      const localStorageGuest = localStorage.getItem("cart"); 
-      const result = localStorageGuest.map(product => {return product.id})
+      const localStorageGuest = localStorage.getItem('cart')
+      const result = localStorageGuest.map(product => {
+        return product.id
+      })
       for (let i = 0; i < result.length; i++) {
-        const res = await axios.post(`/api/users/cart/checkoutGUest}`, result[i])
+        const res = await axios.post(`/api/users/cart/checkoutguest`, result[i])
         dispatch(addToCart(res.data))
       }
       // const res = await axios.post(`/api/users/cart/checkoutGUest}`, result)
@@ -70,7 +67,6 @@ export const addToCartGuestThunk = () => {
     }
   }
 }
-
 
 export const getCartThunk = () => {
   return async dispatch => {
