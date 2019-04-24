@@ -53,15 +53,12 @@ export const addToCartGuestThunk = () => {
   return async dispatch => {
     try {
       const localStorageGuest = localStorage.getItem('cart')
-      const result = localStorageGuest.map(product => {
-        return product.id
-      })
-      for (let i = 0; i < result.length; i++) {
-        const res = await axios.post(`/api/users/cart/checkoutguest`, result[i])
+      let array = JSON.parse(localStorageGuest)
+      console.log(array)
+      for (let i = 0; i < array.length; i++) {
+        const res = await axios.post(`/api/users/cart/checkoutGuest`, array[i])
         dispatch(addToCart(res.data))
       }
-      // const res = await axios.post(`/api/users/cart/checkoutGUest}`, result)
-      // dispatch(addToCart(res.data))
     } catch (err) {
       console.log('ERROR', err)
     }
@@ -99,7 +96,7 @@ export const updateItemQuantityThunk = (id, num) => {
         dispatch(removeItem(id))
       } else {
         await axios.put('/api/users/cart/' + id, num)
-        dispatch(updateItemQuantity(id, num))
+        // dispatch(updateItemQuantity(id, num))
       }
     } catch (error) {
       console.error(error)

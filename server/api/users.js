@@ -73,10 +73,10 @@ router.get('/:userId/orders/:productId', async (req, res, next) => {
   }
 })
 
-router.post('/cart/checkoutguest', async (req, res, next) => {
+router.post('/cart/checkoutGuest', async (req, res, next) => {
   try {
     const userId = req.session.passport.user
-    const productId = req.body
+    const productId = req.body.id
     const postedItem = await CartOrders.create({userId, productId})
     res.json(postedItem)
   } catch (error) {
