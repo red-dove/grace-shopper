@@ -74,19 +74,17 @@ router.get('/:userId/orders/:productId', async (req, res, next) => {
 }) 
 
 
+
 router.post('/cart/checkoutGuest', async (req, res, next) => {
   try {
     const userId = req.session.passport.user  
-    const productId = req.body; 
-    const postedItem = await CartOrders.create({userId, productId})
+    const productId = req.body.id
+    const postedItem = await CartOrders.create({userId, productId}) 
     res.json(postedItem)
   } catch (error) {
     next(error)
   }
 })
-
-
-
 
 router.put('/profile', async (req, res, next) => {
   try {
