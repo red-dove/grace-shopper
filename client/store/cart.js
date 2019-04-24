@@ -8,9 +8,8 @@ const initialState = {
 const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_ITEM = 'REMOVE_ITEM'
-const UPDATE_ITEM_QUANTITY = 'UPDATE_ITEM_QUANTITY'
+// const UPDATE_ITEM_QUANTITY = 'UPDATE_ITEM_QUANTITY'
 const CART_TOTAL = 'CART_TOTAL'
-
 
 const getCart = products => {
   return {
@@ -29,18 +28,16 @@ const removeItem = id => ({
   id
 })
 
-const updateItemQuantity = (id, num) => ({
-  type: UPDATE_ITEM_QUANTITY,
-  id,
-  num
-})
+// const updateItemQuantity = (id, num) => ({
+//   type: UPDATE_ITEM_QUANTITY,
+//   id,
+//   num
+// })
+
 const cartTotal = total => ({
   type: CART_TOTAL,
   total
 })
-
-
-
 
 export const addToCartThunk = product => {
   return async dispatch => {
@@ -53,14 +50,12 @@ export const addToCartThunk = product => {
   }
 }
 
-
 export const addToCartGuestThunk = () => {
   return async dispatch => {
     try {
-   
-      const localStorageGuest = localStorage.getItem("cart"); 
-         let array =  JSON.parse(localStorageGuest);
-         console.log (array)
+      const localStorageGuest = localStorage.getItem('cart')
+      let array = JSON.parse(localStorageGuest)
+      console.log(array)
       for (let i = 0; i < array.length; i++) {
         const res = await axios.post(`/api/users/cart/checkoutGuest`, array[i])
         dispatch(addToCart(res.data))
@@ -70,7 +65,6 @@ export const addToCartGuestThunk = () => {
     }
   }
 }
-
 
 export const getCartThunk = () => {
   return async dispatch => {
@@ -95,21 +89,21 @@ export const removeItemThunk = id => {
   }
 }
 
-export const updateItemQuantityThunk = (id, num) => {
-  return async dispatch => {
-    try {
-      if (num === 0) {
-        await axios.delete('/api/users/cart/' + id)
-        dispatch(removeItem(id))
-      } else {
-        await axios.put('/api/users/cart/' + id, num)
-       // dispatch(updateItemQuantity(id, num))
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
-}
+// export const updateItemQuantityThunk = (id, num) => {
+//   return async dispatch => {
+//     try {
+//       if (num === 0) {
+//         await axios.delete('/api/users/cart/' + id)
+//         dispatch(removeItem(id))
+//       } else {
+//         await axios.put('/api/users/cart/' + id, num)
+//         // dispatch(updateItemQuantity(id, num))
+//       }
+//     } catch (error) {
+//       console.error(error)
+//     }
+//   }
+// }
 
 export const cartTotalThunk = () => {
   return async dispatch => {
@@ -143,11 +137,6 @@ export default function(state = initialState, action) {
       }
     case CART_TOTAL:
       return {...state, cartTotal: action.total}
-    // case UPDATE_ITEM_QUANTITY:
-    //   cart = state.cart.map(elem => {
-    //      return { ...elem, quantity: action.num };
-    //  });
-    //  return { ...state, cart };
     default:
       return state
   }
