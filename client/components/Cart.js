@@ -26,8 +26,8 @@ class Cart extends Component {
   componentDidMount() {
     this.props.getCart()
     this.props.cartTotal()
-    this.props.removeItem()
-    this.props.addtoCartGuest()
+    // this.props.removeItem()
+    // this.props.addtoCartGuest()
   }
   componentDidUpdate() {
     this.props.cartTotal()
@@ -40,6 +40,7 @@ class Cart extends Component {
         return product.price
       })
       .reduce((x, y) => x + y)
+      .toFixed(2)
   }
 
   guestRemoveItem(id) {
@@ -175,7 +176,7 @@ const mapDispatchToProps = dispatch => ({
   updateItemQuantity: id => {
     console.log(id)
   },
-  addtoCartGuest:  () => dispatch(addToCartGuestThunk()),
+  addtoCartGuest: () => dispatch(addToCartGuestThunk()),
   cartTotal: () => dispatch(cartTotalThunk())
 })
 

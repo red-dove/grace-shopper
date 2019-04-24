@@ -136,11 +136,6 @@ export default function(state = initialState, action) {
       }
     case CART_TOTAL:
       return {...state, cartTotal: action.total}
-    // case UPDATE_ITEM_QUANTITY:
-    //   cart = state.cart.map(elem => {
-    //      return { ...elem, quantity: action.num };
-    //  });
-    //  return { ...state, cart };
     default:
       return state
   }
