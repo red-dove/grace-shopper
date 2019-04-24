@@ -127,9 +127,50 @@ form div {
   font-weight: bold;
   padding: 10px;
 }
-.navBar {
+.navbar {
+  height: 125px;
+  background-color: purple;
+  margin-bottom: 50px;
+  display: flex;
+}
+
+.navbar a {
+  color: white;
+}
+
+.navbar-container {
+  width: 1140px;
+  margin: 0 auto;
   display: flex;
   align-content: flex-end;
+}
+
+.navbar-left {
+  width: 60%;
+  display: flex;
+  box-sizing: border-box;
+  flex-grow: 1;
+  overflow: hidden;
+  align-items: center;
+}
+
+.navbar-left a {
+  margin: 0 auto;
+  font-size: 75px;
+  font-family: 'Modak', cursive;
+}
+
+.fa-coffee {
+  font-size: 60%;
+}
+
+.navbar-right {
+  width: 40%;
+  display: flex;
+  box-sizing: border-box;
+  flex-grow: 1;
+  overflow: hidden;
+  align-items: center;
 }
 
 #cartHeader {
@@ -137,9 +178,9 @@ form div {
   text-align: center;
 }
 
-.fa-user {
+/* .fa-user {
   color: #e56b49;
-}
+} */
 
 .formContainer {
   max-width: 450px;
