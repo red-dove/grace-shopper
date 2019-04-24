@@ -9,6 +9,7 @@ import SingleProductContainer from './components/SingleProduct'
 import Cart from './components/Cart'
 import UserProfileContainer from './components/UserProfile'
 import NotFound from './components/NotFound'
+import ThankYou from './components/ThankYou'
 /**
  * COMPONENT
  */
@@ -22,8 +23,6 @@ class Routes extends Component {
 
     return (
       <Switch>
-            
-
         {/* Routes placed here are available to all visitors */}
         <Route
           exact
@@ -35,14 +34,11 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/cart" component={Cart} />
-     
-
+        <Route path="/thankyou" component={ThankYou} />
 
         <Redirect from="/" to="/products" />
 
-
-        <Route  path="*" component={NotFound}  />
-       
+        <Route path="*" component={NotFound} />
       </Switch>
     )
   }
